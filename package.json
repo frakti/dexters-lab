@@ -1,0 +1,14 @@
+{
+  "name": "lodash-editor",
+  "version": "0.1.0",
+  "description": "Lodash chain steps visualization tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lodash"
+  ],
+  "author": "Tomasz Sikora <frakti7@gmail.com>",
+  "license": "MIT"
+}
