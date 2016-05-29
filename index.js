@@ -10,7 +10,10 @@ const newLo = _.runInContext().mixin(_(lodashFunctions)
 
     return function (...args) {
       console.info(`Invoked ${funcName} with args ${JSON.stringify(args)}`)
-      return _[funcName](...args)
+      const result = _[funcName](...args)
+
+      console.info(`With result: ${JSON.stringify(result)}`)
+      return result
     }
 
   })
