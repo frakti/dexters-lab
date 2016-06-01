@@ -1,6 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
+const fs = require('fs')
 
 const lodashFunctions = _.functions(_)
 
@@ -25,7 +26,8 @@ const newLo = _.runInContext().mixin(_(lodashFunctions)
 const [,, scriptPath, testDataPath] = process.argv
 
 // dangerous for acceptable for first iteration
-const func = require(scriptPath)
+const funcAsString = fs.readFileSync(scriptPath)
+const func = new Function('_', 'data', funcAsString)
 const data = require(testDataPath)
 
 console.info(func(newLo, data))
