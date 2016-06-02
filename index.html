@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LoDash Editor</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+      $().ready(function () {
+        const funcAsString = $('#function').text()
+        const data = $('#data').text()
+
+
+        const lodashFunctions = _.functions(_)
+
+        let step = 0
+        const newLo = _.runInContext().mixin(_(lodashFunctions)
+          .keyBy()
+          .mapValues(function (funcName) {
+
+            return function (...args) {
+              $('#result').append(`\n\nStep ${++step}. Invoked '${funcName}' with args ${JSON.stringify(args)}\n`)
+              const result = _[funcName](...args)
+
+              $('#result').append('With result:\n', JSON.stringify(result, null, 2))
+              return result
+            }
+
+          })
+          .value()
+        )
+
+        const func = new Function('_', 'data', funcAsString)
+        const result = func(newLo, JSON.parse(data))
+        $('#result').append(`\n\nFinal result: \n${JSON.stringify(result, null, 2)}`)
+
+      })
+
+    </script>
+  </head>
+  <body>
+    Data:
+    <br/>
+    <textarea cols='60' rows='10' id='data'>[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]</textarea>
+    <br/>
+    Function:
+    <br/>
+    <textarea cols='60' rows='10' id='function'>
+      return _(data)
+  .map('city')
+  .sortBy()
+  .value()
+    </textarea>
+
+    <pre id='result'></pre>
+  </body>
+</html>
