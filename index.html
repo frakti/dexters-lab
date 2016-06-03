@@ -9,10 +9,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
       $().ready(function () {
-        const funcAsString = $('#function').text()
-        const data = $('#data').text()
-
-
         const lodashFunctions = _.functions(_)
 
         let step = 0
@@ -32,10 +28,21 @@
           .value()
         )
 
-        const func = new Function('_', 'data', funcAsString)
-        const result = func(newLo, JSON.parse(data))
-        $('#result').append(`\n\nFinal result: \n${JSON.stringify(result, null, 2)}`)
+        const runScript = () => {
+          $('#result').text('')
+          const funcAsString = $('#function').text()
+          const data = $('#data').text()
+          const func = new Function('_', 'data', funcAsString)
+          const result = func(newLo, JSON.parse(data))
+          $('#result').append(`\n\nFinal result: \n${JSON.stringify(result, null, 2)}`)
+        }
 
+        runScript()
+
+        $('#run-script-btn').on('click', (e) => {
+          e.preventDefault()
+          runScript()
+        })
       })
 
     </script>
@@ -58,8 +65,8 @@
         </textarea>
       </div>
     </div>
-    <div class="row">
-
+    <div class='text-center'>
+      <a class="btn btn-lg btn-success" href="#" role="button" id='run-script-btn'>Run script</a>
     </div>
 
     <pre id='result'></pre>
