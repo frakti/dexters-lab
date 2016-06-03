@@ -30,8 +30,9 @@
 
         const runScript = () => {
           $('#result').text('')
-          const funcAsString = $('#function').text()
-          const data = $('#data').text()
+          const funcAsString = $('#function').val()
+          const data = $('#data').val()
+          console.info(data)
           const func = new Function('_', 'data', funcAsString)
           const result = func(newLo, JSON.parse(data))
           $('#result').append(`\n\nFinal result: \n${JSON.stringify(result, null, 2)}`)
