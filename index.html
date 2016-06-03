@@ -41,18 +41,23 @@
     </script>
   </head>
   <body>
-    Data:
-    <br/>
-    <textarea cols='60' rows='10' id='data'>[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]</textarea>
-    <br/>
-    Function:
-    <br/>
-    <textarea cols='60' rows='10' id='function'>
-      return _(data)
-  .map('city')
-  .sortBy()
-  .value()
-    </textarea>
+    <div class="row">
+      <div class="col-md-6">
+        Data:
+        <br/>
+        <textarea style='width: 100%' rows='10' id='data'>[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]</textarea>
+      </div>
+      <div class="col-md-6">
+        Function:
+        <br/>
+        <textarea  style='width: 100%' rows='10' id='function'>
+          return _(data)
+      .map('city')
+      .sortBy()
+      .value()
+        </textarea>
+      </div>
+    </div>
 
     <pre id='result'></pre>
   </body>
