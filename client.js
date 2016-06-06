@@ -28,4 +28,8 @@ class LodashWrapper {
   get stats () {
     return this.steps
   }
+
+  resetStats () {
+    this.steps = []
+  }
 }

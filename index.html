@@ -13,6 +13,8 @@
         const loWrapper = new LodashWrapper(_)
 
         const runScript = () => {
+          loWrapper.resetStats()
+
           $('#result').text('')
           const funcAsString = $('#function').val()
           const data = $('#data').val()
