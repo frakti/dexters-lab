@@ -9,24 +9,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
       $().ready(function () {
-        const lodashFunctions = _.functions(_)
 
-        let step = 0
-        const newLo = _.runInContext().mixin(_(lodashFunctions)
-          .keyBy()
-          .mapValues(function (funcName) {
+        function getNewLo () {
+          const lodashFunctions = _.functions(_)
 
-            return function (...args) {
-              $('#result').append(`\n\nStep ${++step}. Invoked '${funcName}' with args ${JSON.stringify(args)}\n`)
-              const result = _[funcName](...args)
+          let step = 0
+          return _.runInContext().mixin(_(lodashFunctions)
+            .keyBy()
+            .mapValues(function (funcName) {
 
-              $('#result').append('With result:\n', JSON.stringify(result, null, 2))
-              return result
-            }
+              return function (...args) {
+                $('#result').append(`\n\nStep ${++step}. Invoked '${funcName}' with args ${JSON.stringify(args)}\n`)
+                const result = _[funcName](...args)
 
-          })
-          .value()
-        )
+                $('#result').append('With result:\n', JSON.stringify(result, null, 2))
+                return result
+              }
+
+            })
+            .value()
+          )
+        }
 
         const runScript = () => {
           $('#result').text('')
@@ -34,7 +37,7 @@
           const data = $('#data').val()
           console.info(data)
           const func = new Function('_', 'data', funcAsString)
-          const result = func(newLo, JSON.parse(data))
+          const result = func(getNewLo(), JSON.parse(data))
           $('#result').append(`\n\nFinal result: \n${JSON.stringify(result, null, 2)}`)
         }
 
