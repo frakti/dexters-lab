@@ -17,11 +17,18 @@
 
           $('#result').text('')
           const funcAsString = $('#function').val()
-          const data = $('#data').val()
-          console.info(data)
+
+          let data
+          try {
+            data = JSON.parse($('#data').val())
+          } catch (err) {
+            $('#result').text(`Invalid data: ${err}`)
+            return
+          }
+
           const func = new Function('_', 'data', funcAsString)
 
-          const result = func(loWrapper.lodash, JSON.parse(data))
+          const result = func(loWrapper.lodash, data)
 
           _.map(loWrapper.stats, (step) => {
             $('#result').append(`\n\nStep ${step.step}. Invoked '${step.funcName}' with args ${step.args}.\n\nResult:\n${step.result}\n`)
