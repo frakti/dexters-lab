@@ -7,29 +7,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="client.js"></script>
     <script>
       $().ready(function () {
-
-        function getNewLo () {
-          const lodashFunctions = _.functions(_)
-
-          let step = 0
-          return _.runInContext().mixin(_(lodashFunctions)
-            .keyBy()
-            .mapValues(function (funcName) {
-
-              return function (...args) {
-                $('#result').append(`\n\nStep ${++step}. Invoked '${funcName}' with args ${JSON.stringify(args)}\n`)
-                const result = _[funcName](...args)
-
-                $('#result').append('With result:\n', JSON.stringify(result, null, 2))
-                return result
-              }
-
-            })
-            .value()
-          )
-        }
+        const loWrapper = new LodashWrapper(_)
 
         const runScript = () => {
           $('#result').text('')
@@ -37,7 +18,12 @@
           const data = $('#data').val()
           console.info(data)
           const func = new Function('_', 'data', funcAsString)
-          const result = func(getNewLo(), JSON.parse(data))
+
+          const result = func(loWrapper.lodash, JSON.parse(data))
+
+          _.map(loWrapper.stats, (step) => {
+            $('#result').append(`\n\nStep ${step.step}. Invoked '${step.funcName}' with args ${step.args}.\n\nResult:\n${step.result}\n`)
+          })
           $('#result').append(`\n\nFinal result: \n${JSON.stringify(result, null, 2)}`)
         }
 
