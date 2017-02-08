@@ -47,6 +47,15 @@ export default class Editor extends Component {
     this.refs.inputData.editor.setValue(`[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`)
   }
 
+  onBeautifyJson = () => {
+    const {data} = this.state
+
+    try {
+      const json = JSON.parse(data)
+      this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2))
+    } catch (e) {}
+  }
+
   render () {
     const {content, data, stats, result, error} = this.state
     let json = {}
@@ -75,6 +84,7 @@ export default class Editor extends Component {
               onChange={(data) => this.setState({data})}
               defaultValue={data}
             />
+            <Button onClick={this.onBeautifyJson}>Beautify JSON</Button>
           </Col>
         </Row>
 
