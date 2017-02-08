@@ -97,7 +97,7 @@ export default class Editor extends Component {
                   Step: {step.step} <br />
                   Function: <pre>{step.funcName} </pre><br />
                   Args: <pre>{step.args}</pre><br />
-                  Result: <pre>step.result}</pre>
+                  Result: <pre>{step.result}</pre>
                   <hr />
                 </div>
               })
