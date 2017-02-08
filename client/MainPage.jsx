@@ -4,7 +4,7 @@ import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import LodashWrapper from './LodashWrapper'
-import {Button, Grid, Row, Col} from 'react-bootstrap'
+import {Alert, Button, Grid, Row, Col} from 'react-bootstrap'
 
 export default class Editor extends Component {
   state = {
@@ -89,11 +89,7 @@ export default class Editor extends Component {
         </Row>
 
         <div className='preview'>
-          <b>{error}</b>
-            <h3>Data</h3>
-            <pre>
-              {JSON.stringify(json, null, 2)}
-            </pre>
+          {error && <Alert bsStyle='danger'>{error}</Alert>}
             <h3>Steps</h3>
             {
               _.map(stats, (step) => {
