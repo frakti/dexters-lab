@@ -4,7 +4,7 @@ import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import LodashWrapper from './LodashWrapper'
-import {Grid, Row, Col} from 'react-bootstrap'
+import {Button, Grid, Row, Col} from 'react-bootstrap'
 
 export default class Editor extends Component {
   state = {
@@ -38,6 +38,15 @@ export default class Editor extends Component {
     }
   }
 
+  onUseExample = () => {
+    this.refs.editor.editor.setValue(`return _(data)
+      .map('city')
+      .sortBy()
+      .value()`)
+
+    this.refs.inputData.editor.setValue(`[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`)
+  }
+
   render () {
     const {content, data, stats, result, error} = this.state
     let json = {}
@@ -52,13 +61,16 @@ export default class Editor extends Component {
           <Col md={6}>
             <h3>Editor</h3>
             <JavaScriptEditor
+              ref='editor'
               onChange={this.onChangeContent}
               defaultValue={content}
             />
+          <Button onClick={this.onUseExample}>Use example</Button>
           </Col>
           <Col md={6}>
             <h3>Input data</h3>
             <JavaScriptEditor
+              ref='inputData'
               json
               onChange={(data) => this.setState({data})}
               defaultValue={data}
