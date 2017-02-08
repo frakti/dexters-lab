@@ -1,5 +1,5 @@
-LoDash editor
-=============
+LoDash Lab
+==========
 
 Run:
 ```

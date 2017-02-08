@@ -1,5 +1,5 @@
 {
-  "name": "lodash-editor",
+  "name": "lodash-lab",
   "version": "1.0.0",
   "description": "Lodash chain steps visualization tool",
   "main": "index.js",
