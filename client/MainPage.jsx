@@ -4,6 +4,8 @@ import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import LodashWrapper from './LodashWrapper'
+import {Grid, Row, Col} from 'react-bootstrap'
+
 export default class Editor extends Component {
   state = {
     content: '',
@@ -44,22 +46,26 @@ export default class Editor extends Component {
     } catch (e) {}
 
     return (
-      <div>
-        <div className='editors'>
-            Editor
+      <Grid>
+        <h2>LoDash Labs</h2>
+        <Row>
+          <Col md={6}>
+            <h3>Editor</h3>
             <JavaScriptEditor
               onChange={this.onChangeContent}
               defaultValue={content}
             />
-        </div>
-        <div className='editors'>
-            Data
+          </Col>
+          <Col md={6}>
+            <h3>Input data</h3>
             <JavaScriptEditor
               json
               onChange={(data) => this.setState({data})}
               defaultValue={data}
             />
-        </div>
+          </Col>
+        </Row>
+
         <div className='preview'>
           <b>{error}</b>
             <h3>Data</h3>
@@ -81,7 +87,7 @@ export default class Editor extends Component {
             <h3>Result</h3>
             <pre>{JSON.stringify(result, null, 2)}</pre>
         </div>
-      </div>
+      </Grid>
     )
   }
 }
