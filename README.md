@@ -4,6 +4,7 @@ LoDash editor
 Run:
 ```
 nvm use 6
+npm i
 npm build
 
 open docs/index.html
