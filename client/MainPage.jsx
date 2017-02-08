@@ -16,6 +16,10 @@ export default class Editor extends Component {
   }
 
   onChangeContent = (content) => {
+    this.processContent(content)
+  }
+
+  processContent = (content) => {
     const {data} = this.state
     const loWrapper = new LodashWrapper(_)
     try {
@@ -39,12 +43,13 @@ export default class Editor extends Component {
   }
 
   onUseExample = () => {
+    this.refs.inputData.editor.setValue(`[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`)
+
     this.refs.editor.editor.setValue(`return _(data)
       .map('city')
       .sortBy()
       .value()`)
 
-    this.refs.inputData.editor.setValue(`[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`)
   }
 
   onBeautifyJson = () => {
@@ -81,7 +86,10 @@ export default class Editor extends Component {
             <JavaScriptEditor
               ref='inputData'
               json
-              onChange={(data) => this.setState({data})}
+              onChange={(data) => {
+                this.setState({data})
+                this.processContent(this.state.content)
+              }}
               defaultValue={data}
             />
             <Button onClick={this.onBeautifyJson}>Beautify JSON</Button>
