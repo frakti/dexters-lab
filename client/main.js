@@ -1,13 +1,11 @@
 'use strict'
 
-'use strict'
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Editor from './Editor'
+import MainPage from './MainPage'
 
 const container = document.getElementById('react-root')
 
 if (container) {
-  ReactDOM.render(<Editor />, container)
+  ReactDOM.render(<MainPage />, container)
 }
