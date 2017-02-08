@@ -93,13 +93,21 @@ export default class Editor extends Component {
           <h3>Steps</h3>
           {
             _.map(stats, (step) => {
-              return <div key={step.step}>
-                Step: {step.step} <br />
-                Function: <pre>{step.funcName} </pre><br />
-                Args: <pre>{step.args}</pre><br />
-                Result: <pre>{step.result}</pre>
+              return <Row key={step.step}>
+                <Col md={1}>
+                  Step: {step.step}
+                </Col>
+                <Col md={2}>
+                  Function: <pre>{step.funcName}</pre>
+                </Col>
+                <Col md={6}>
+                  Args: <pre>{step.args}</pre>
+                </Col>
+                <Col md={3}>
+                  Result: <pre>{step.result}</pre>
+                </Col>
                 <hr />
-              </div>
+              </Row>
             })
           }
           <h3>Result</h3>
