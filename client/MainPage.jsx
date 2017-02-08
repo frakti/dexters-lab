@@ -81,7 +81,7 @@ export default class Editor extends Component {
               onChange={this.onChangeContent}
               defaultValue={content}
             />
-          <Button onClick={this.onUseExample}>Use example</Button>
+          <Button onClick={this.onUseExample} className='m-a'>Use example</Button>
           </Col>
           <Col md={6}>
             <h3>Input data</h3>
@@ -94,12 +94,12 @@ export default class Editor extends Component {
               }}
               defaultValue={data}
             />
-            <Button onClick={this.onBeautifyJson}>Beautify JSON</Button>
+            <Button onClick={this.onBeautifyJson} className='m-a'>Beautify JSON</Button>
           </Col>
         </Row>
 
         <div className='preview'>
-          {error && <Alert bsStyle='danger'>{error}</Alert>}
+          {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
           <h3>Steps</h3>
           {
             _.map(stats, (step) => {

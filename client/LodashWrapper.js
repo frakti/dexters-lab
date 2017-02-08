@@ -16,7 +16,7 @@ export default class LodashWrapper {
           self.steps.push({
             step: step++,
             funcName,
-            args: JSON.stringify(args),
+            args: JSON.stringify(args, null, 2),
             result: JSON.stringify(result, null, 2)
           })
 
