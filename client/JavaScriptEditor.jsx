@@ -2,14 +2,16 @@
 
 import React, {Component, PropTypes} from 'react'
 import ace from 'brace'
-import 'brace/mode/html'
+import 'brace/mode/json'
+import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 
 export default class JavaScriptEditor extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     defaultValue: PropTypes.string,
-    height: PropTypes.string
+    height: PropTypes.string,
+    json: PropTypes.bool
   }
 
   static defaultProps = {
@@ -20,7 +22,7 @@ export default class JavaScriptEditor extends Component {
   componentDidMount () {
     this.editor = ace.edit(this.refs.editor)
     const session = this.editor.getSession()
-    session.setMode('ace/mode/javascript')
+    session.setMode(this.props.json ? 'ace/mode/json' : 'ace/mode/javascript')
     session.setTabSize(2)
     session.setUseWrapMode(true)
     this.editor.setTheme('ace/theme/monokai')
