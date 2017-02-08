@@ -90,20 +90,20 @@ export default class Editor extends Component {
 
         <div className='preview'>
           {error && <Alert bsStyle='danger'>{error}</Alert>}
-            <h3>Steps</h3>
-            {
-              _.map(stats, (step) => {
-                return <div key={step.step}>
-                  Step: {step.step} <br />
-                  Function: <pre>{step.funcName} </pre><br />
-                  Args: <pre>{step.args}</pre><br />
-                  Result: <pre>{step.result}</pre>
-                  <hr />
-                </div>
-              })
-            }
-            <h3>Result</h3>
-            <pre>{JSON.stringify(result, null, 2)}</pre>
+          <h3>Steps</h3>
+          {
+            _.map(stats, (step) => {
+              return <div key={step.step}>
+                Step: {step.step} <br />
+                Function: <pre>{step.funcName} </pre><br />
+                Args: <pre>{step.args}</pre><br />
+                Result: <pre>{step.result}</pre>
+                <hr />
+              </div>
+            })
+          }
+          <h3>Result</h3>
+          <pre>{JSON.stringify(result, null, 2)}</pre>
         </div>
       </Grid>
     )
