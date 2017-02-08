@@ -1,8 +1,10 @@
 'use strict'
 
-class LodashWrapper {
+export default class LodashWrapper {
   constructor (_) {
     this.steps = []
+    const self = this
+    let step = 1
     this.lodash = _.runInContext().mixin(
       _(_) // let the Inception begins :-)
       .functions()
@@ -11,8 +13,8 @@ class LodashWrapper {
         return function (...args) {
           const result = _[funcName](...args)
 
-          steps.push({
-            step,
+          self.steps.push({
+            step: step++,
             funcName,
             args: JSON.stringify(args),
             result: JSON.stringify(result, null, 2)
