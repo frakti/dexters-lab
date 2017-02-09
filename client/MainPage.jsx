@@ -53,6 +53,8 @@ export default class Editor extends Component {
 
     // Temporal workaround to process content after replacing editor value
     setTimeout(() => this.processContent(this.state.content), 0)
+
+    ga('set', 'clicked-use-example');
   }
 
   onBeautifyJson = () => {
