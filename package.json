@@ -1,6 +1,6 @@
 {
   "name": "lodash-lab",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Lodash chain steps visualization tool",
   "main": "index.js",
   "scripts": {
