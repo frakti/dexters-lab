@@ -41,7 +41,6 @@ export default class Editor extends Component {
         }
       })
     } catch (e) {
-      console.error(e)
       this.setState({
         content,
         error: "Can't process, fix function or test data"
