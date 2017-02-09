@@ -28,7 +28,7 @@ export default class Editor extends Component {
       const result = func(loWrapper.lodash, JSON.parse(this.state.data))
 
       this.setState((prevState) => {
-        if (!_.eq(prevState.result, result)) {
+        if (!_.isEqual(prevState.result, result)) {
           ga('send', 'event', 'Processor', 'new-result');
         }
 
