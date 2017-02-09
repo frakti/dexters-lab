@@ -27,12 +27,18 @@ export default class Editor extends Component {
       const func = new Function('_', 'data', content)
       const result = func(loWrapper.lodash, JSON.parse(this.state.data))
 
-      this.setState({
-        content,
-        data,
-        stats: loWrapper.stats,
-        result,
-        error: null
+      this.setState((prevState) => {
+        if (_.eq(prevState.result, result)) {
+          ga('send', 'event', 'Processor', 'new-result');
+        }
+
+        return {
+          content,
+          data,
+          stats: loWrapper.stats,
+          result,
+          error: null
+        }
       })
     } catch (e) {
       console.error(e)
@@ -54,7 +60,7 @@ export default class Editor extends Component {
     // Temporal workaround to process content after replacing editor value
     setTimeout(() => this.processContent(this.state.content), 0)
 
-    ga('set', 'clicked-use-example');
+    ga('send', 'event', 'Example', 'click');
   }
 
   onBeautifyJson = () => {
@@ -62,16 +68,13 @@ export default class Editor extends Component {
 
     try {
       const json = JSON.parse(data)
-      this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2))
+      this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2));
+      ga('send', 'event', 'Input Data', 'beautify');
     } catch (e) {}
   }
 
   render () {
     const {content, data, stats, result, error} = this.state
-    let json = {}
-    try {
-      json = JSON.parse(this.state.data)
-    } catch (e) {}
 
     return (
       <Grid>
