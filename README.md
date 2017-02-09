@@ -5,7 +5,7 @@ LoDash Lab
 ```
 nvm use 6
 npm i
-npm build
+gulp build
 
 open docs/index.html
 ```
