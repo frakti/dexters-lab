@@ -4,7 +4,8 @@ import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import LodashWrapper from './LodashWrapper'
-import {Alert, Button, Grid, Row, Col} from 'react-bootstrap'
+import {Alert, Button, Grid, Row, Col, Label} from 'react-bootstrap'
+import packageJson from '../package.json'
 
 export default class Editor extends Component {
   state = {
@@ -72,7 +73,8 @@ export default class Editor extends Component {
 
     return (
       <Grid>
-        <h2>LoDash Labs</h2>
+        <h2 style={{'margin-bottom': 0}}>LoDash Labs</h2>
+        <Label bsStyle="success">v{packageJson.version}</Label>
         <Row>
           <Col md={6}>
             <h3>Editor</h3>
