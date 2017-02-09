@@ -108,6 +108,8 @@ export default class Editor extends Component {
 
         <div className='preview'>
           {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
+          <h3>Result</h3>
+          <pre>{JSON.stringify(result, null, 2)}</pre>
           <h3>Steps</h3>
           {
             _.map(stats, (step) => {
@@ -128,8 +130,6 @@ export default class Editor extends Component {
               </Row>
             })
           }
-          <h3>Result</h3>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
         </div>
       </Grid>
     )
