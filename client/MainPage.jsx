@@ -121,10 +121,10 @@ export default class Editor extends Component {
                   Function: <pre>{step.funcName}</pre>
                 </Col>
                 <Col md={6}>
-                  Args: <pre>{step.args}</pre>
+                  Input: <pre>{step.args}</pre>
                 </Col>
                 <Col md={3}>
-                  Result: <pre>{step.result}</pre>
+                  Output: <pre>{step.result}</pre>
                 </Col>
                 <hr />
               </Row>
