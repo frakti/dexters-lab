@@ -77,7 +77,7 @@ export default class Editor extends Component {
 
     return (
       <Grid>
-        <h2 style={{'margin-bottom': 0}}>LoDash Labs</h2>
+        <h2 style={{marginBottom: 0}}>LoDash Labs</h2>
         <Label bsStyle="success">v{packageJson.version}</Label>
         {' '}
         <Label bsStyle="primary">lodash: {packageJson.dependencies.lodash}</Label>
