@@ -43,8 +43,11 @@ export default class Editor extends Component {
     const {data} = this.state
 
     try {
-
-      const [result, stats] = this.lodashLab.execute(LodashWrapper, content, data)
+      const [result, stats] = this.lodashLab.execute(
+        LodashWrapper,
+        content,
+        data.length > 0 ? data : null
+      )
 
       this.setState((prevState) => {
         if (!_.isEqual(prevState.result, result)) {
