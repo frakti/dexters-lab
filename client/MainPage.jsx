@@ -14,6 +14,7 @@ export default class Editor extends Component {
     content: '',
     data: '',
     stats: [],
+    currentVersion: null,
     versions: [],
     result: null,
     error: null
@@ -27,7 +28,7 @@ export default class Editor extends Component {
         this.lodashLab.onload = () => {
           this.lodashLab.switchLodash(versions[0], () => null)
         }
-        this.setState({versions})
+        this.setState({versions, currentVersion: versions[0]})
       })
   }
 
@@ -51,7 +52,7 @@ export default class Editor extends Component {
 
       this.setState((prevState) => {
         if (!_.isEqual(prevState.result, result)) {
-          ga('send', 'event', 'Transformer', 'new-result');
+          ga('send', 'event', 'Transformer', 'new-result', this.state.currentVersion);
         }
 
         return {
@@ -81,12 +82,12 @@ export default class Editor extends Component {
     // Temporal workaround to process content after replacing editor value
     setTimeout(() => this.processContent(this.state.content), 0)
 
-    ga('send', 'event', 'Transformer', 'use-example');
+    ga('send', 'event', 'Transformer', 'use-example', this.state.currentVersion);
   }
 
   onCopyToClipboard = () => {
     copy(this.state.content)
-    ga('send', 'event', 'Transformer', 'copy-to-clipboard');
+    ga('send', 'event', 'Transformer', 'copy-to-clipboard', this.state.currentVersion);
   }
 
   onBeautifyJson = () => {
@@ -103,7 +104,8 @@ export default class Editor extends Component {
     const {target: {value}} = event
 
     this.lodashLab.switchLodash(value, (a) => {
-      console.info(a)
+      this.setState({currentVersion: value})
+      ga('send', 'event', 'Transformer', 'switch-version', value);
       this.processContent(this.state.content)
     })
   }
