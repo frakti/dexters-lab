@@ -8,6 +8,7 @@ import {Alert, Button, Grid, Row, Col, Label, FormControl, InputGroup} from 'rea
 import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
 import 'whatwg-fetch'
+import Icon from 'react-fontawesome'
 
 export default class Editor extends Component {
   state = {
@@ -116,9 +117,10 @@ export default class Editor extends Component {
   render () {
     const {content, data, stats, result, error, versions, isLabLoaded} = this.state
 
+    const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
     return (
       <Grid>
-        <h2 style={{marginBottom: 0}}>Dexter's Labs</h2>
+        <h2 style={{marginBottom: 0}}>Dexter's Labs {loader}</h2>
         <Label bsStyle="success">v{packageJson.version}</Label>
         {' '}
         <br />
