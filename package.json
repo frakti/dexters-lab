@@ -4,7 +4,9 @@
   "description": "Lodash chain steps visualization tool",
   "main": "index.js",
   "scripts": {
-    "release": "gulp build && cp docs/* ../dexters-lab-live/"
+    "postversion": "git push && git push --tags && LIVE_DIR=../dexters-lab-live/ npm run deploy",
+    "predeploy": "echo \"Deploy repo directory: $LIVE_DIR\"",
+    "deploy": "gulp build && cp docs/* $LIVE_DIR && cd $LIVE_DIR && git add -A && git commit -m \"Release ${npm_package_version}\" && git push origin master && cd -"
   },
   "keywords": [
     "lodash"
