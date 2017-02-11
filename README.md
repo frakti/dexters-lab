@@ -1,5 +1,5 @@
-LoDash Lab
-==========
+Dexter's Lab
+============
 
 [Try it now](http://dexters-lab.io/) or clone and run:
 ```
