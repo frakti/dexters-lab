@@ -4,24 +4,35 @@ import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import LodashWrapper from './LodashWrapper'
-import {Alert, Button, Grid, Row, Col, Label} from 'react-bootstrap'
+import {Alert, Button, Grid, Row, Col, Label, FormControl, InputGroup} from 'react-bootstrap'
 import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
+import 'whatwg-fetch'
 
 export default class Editor extends Component {
   state = {
     content: '',
     data: '',
     stats: [],
+    versions: [],
     result: null,
     error: null
   }
 
+  componentWillMount () {
+    fetch('http://api.jsdelivr.com/v1/jsdelivr/libraries/lodash')
+      .then(response => response.json())
+      .then(cdn => {
+        const [{versions}] = cdn
+        this.lodashLab.onload = () => {
+          this.lodashLab.switchLodash(versions[0], () => null)
+        }
+        this.setState({versions})
+      })
+  }
+
   componentDidMount () {
     this.lodashLab = document.getElementById('lodash-lab').contentWindow
-    this.lodashLab.onload = () => {
-      this.lodashLab.switchLodash('4.17.3', () => null)
-    }
   }
 
   onChangeContent = (content) => {
@@ -85,23 +96,31 @@ export default class Editor extends Component {
     } catch (e) {}
   }
 
-  onSwitchLodashVersion = (version) => {
-    this.lodashLab.switchLodash(version, (a) => {
+  onSwitchLodashVersion = (event) => {
+    const {target: {value}} = event
+
+    this.lodashLab.switchLodash(value, (a) => {
       console.info(a)
     })
   }
 
   render () {
-    const {content, data, stats, result, error} = this.state
+    const {content, data, stats, result, error, versions} = this.state
 
     return (
       <Grid>
         <h2 style={{marginBottom: 0}}>LoDash Labs</h2>
         <Label bsStyle="success">v{packageJson.version}</Label>
         {' '}
-        <Label bsStyle="primary">lodash: {packageJson.dependencies.lodash}</Label>
-        <Button onClick={this.onSwitchLodashVersion.bind(this, '4.17.4')} className='m-a'>4.17.4</Button>
-        <Button onClick={this.onSwitchLodashVersion.bind(this, '4.17.3')} className='m-a'>4.17.3</Button>
+        <br />
+        <br />
+        <InputGroup style={{width: '150px'}}>
+          <InputGroup.Addon>Lodash</InputGroup.Addon>
+          <FormControl componentClass="select" placeholder="select" onChange={this.onSwitchLodashVersion}>
+            {_.map(versions, version => <option key={version}>{version}</option>)}
+          </FormControl>
+        </InputGroup>
+
         <Row>
           <Col md={6}>
             <h3>Editor</h3>
