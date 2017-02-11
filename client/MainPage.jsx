@@ -17,16 +17,23 @@ export default class Editor extends Component {
     error: null
   }
 
+  componentDidMount () {
+    this.lodashLab = document.getElementById('lodash-lab').contentWindow
+    this.lodashLab.onload = () => {
+      this.lodashLab.switchLodash('4.17.3', () => null)
+    }
+  }
+
   onChangeContent = (content) => {
     this.processContent(content)
   }
 
   processContent = (content) => {
     const {data} = this.state
-    const loWrapper = new LodashWrapper(_)
+
     try {
-      const func = new Function('_', 'data', content)
-      const result = func(loWrapper.lodash, JSON.parse(this.state.data))
+
+      const [result, stats] = this.lodashLab.execute(LodashWrapper, content, data)
 
       this.setState((prevState) => {
         if (!_.isEqual(prevState.result, result)) {
@@ -36,7 +43,7 @@ export default class Editor extends Component {
         return {
           content,
           data,
-          stats: loWrapper.stats,
+          stats,
           result,
           error: null
         }
@@ -78,6 +85,12 @@ export default class Editor extends Component {
     } catch (e) {}
   }
 
+  onSwitchLodashVersion = (version) => {
+    this.lodashLab.switchLodash(version, (a) => {
+      console.info(a)
+    })
+  }
+
   render () {
     const {content, data, stats, result, error} = this.state
 
@@ -87,6 +100,8 @@ export default class Editor extends Component {
         <Label bsStyle="success">v{packageJson.version}</Label>
         {' '}
         <Label bsStyle="primary">lodash: {packageJson.dependencies.lodash}</Label>
+        <Button onClick={this.onSwitchLodashVersion.bind(this, '4.17.4')} className='m-a'>4.17.4</Button>
+        <Button onClick={this.onSwitchLodashVersion.bind(this, '4.17.3')} className='m-a'>4.17.3</Button>
         <Row>
           <Col md={6}>
             <h3>Editor</h3>
@@ -138,6 +153,7 @@ export default class Editor extends Component {
             })
           }
         </div>
+        <iframe src='lodash.html' id='lodash-lab' style={{display: 'none'}} />
       </Grid>
     )
   }
