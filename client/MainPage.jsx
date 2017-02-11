@@ -17,7 +17,8 @@ export default class Editor extends Component {
     currentVersion: null,
     versions: [],
     result: null,
-    error: null
+    error: null,
+    isLabLoaded: false
   }
 
   componentDidMount () {
@@ -27,8 +28,11 @@ export default class Editor extends Component {
       .then(response => response.json())
       .then(cdn => {
         const [{versions}] = cdn
-        this.lodashLab.switchLodash(versions[0])
-        this.setState({versions, currentVersion: versions[0]})
+        this.lodashLab.switchLodash(versions[0], () => {
+          this.setState({currentVersion: versions[0], isLabLoaded: true})
+        })
+
+        this.setState({versions})
       })
   }
 
@@ -37,7 +41,9 @@ export default class Editor extends Component {
   }
 
   processContent = (content) => {
-    const {data} = this.state
+    const {data, isLabLoaded} = this.state
+
+    if (!isLabLoaded) return
 
     try {
       const [result, stats] = this.lodashLab.execute(
@@ -98,15 +104,17 @@ export default class Editor extends Component {
   onSwitchLodashVersion = (event) => {
     const {target: {value}} = event
 
-    this.lodashLab.switchLodash(value, (a) => {
-      this.setState({currentVersion: value})
+    this.setState({isLabLoaded: false})
+
+    this.lodashLab.switchLodash(value, () => {
+      this.setState({currentVersion: value, isLabLoaded: true})
       ga('send', 'event', 'Transformer', 'switch-version', value);
       this.processContent(this.state.content)
     })
   }
 
   render () {
-    const {content, data, stats, result, error, versions} = this.state
+    const {content, data, stats, result, error, versions, isLabLoaded} = this.state
 
     return (
       <Grid>
