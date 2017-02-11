@@ -3,7 +3,6 @@
     const node = document.getElementById('lodash')
     if (node) {
       node.remove()
-      delete window._
     }
 
     console.info('Loading version: ' + version)
