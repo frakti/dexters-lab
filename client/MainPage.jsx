@@ -38,11 +38,11 @@ export default class Editor extends Component {
   }
 
   onChangeContent = (content) => {
-    this.processContent(content)
+    this.processContent(content, this.state.data)
   }
 
-  processContent = (content) => {
-    const {data, isLabLoaded} = this.state
+  processContent = (content, data) => {
+    const {isLabLoaded} = this.state
 
     if (!isLabLoaded) return
 
@@ -74,15 +74,19 @@ export default class Editor extends Component {
   }
 
   onUseExample = () => {
-    this.refs.inputData.editor.setValue(`[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`)
-
-    this.refs.editor.editor.setValue(`return _(data)
+    const data = `[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`
+    const content =`return _(data)
       .map('city')
       .sortBy()
-      .value()`)
+      .value()`
+
+    this.setState({data, content})
+
+    this.refs.inputData.editor.setValue(data)
+    this.refs.editor.editor.setValue(content)
 
     // Temporal workaround to process content after replacing editor value
-    setTimeout(() => this.processContent(this.state.content), 0)
+    setTimeout(() => this.processContent(content, data), 0)
 
     ga('send', 'event', 'Transformer', 'use-example', this.state.currentVersion);
   }
@@ -110,7 +114,7 @@ export default class Editor extends Component {
     this.lodashLab.switchLodash(value, () => {
       this.setState({currentVersion: value, isLabLoaded: true})
       ga('send', 'event', 'Transformer', 'switch-version', value);
-      this.processContent(this.state.content)
+      this.processContent(this.state.content, this.state.data)
     })
   }
 
@@ -125,7 +129,7 @@ export default class Editor extends Component {
         {' '}
         <br />
         <br />
-        <InputGroup style={{width: '150px'}}>
+        <InputGroup style={{width: '170px'}}>
           <InputGroup.Addon>Lodash</InputGroup.Addon>
           <FormControl componentClass="select" placeholder="select" onChange={this.onSwitchLodashVersion}>
             {_.map(versions, version => <option key={version}>{version}</option>)}
@@ -150,7 +154,7 @@ export default class Editor extends Component {
               json
               onChange={(data) => {
                 this.setState({data})
-                this.processContent(this.state.content)
+                this.processContent(this.state.content, data)
               }}
               defaultValue={data}
             />
