@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
-import LodashWrapper from './LodashWrapper'
+import LodashLabService from './LodashLabService'
 import {Alert, Button, Grid, Row, Col, Label, FormControl, InputGroup} from 'react-bootstrap'
 import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
@@ -20,20 +20,16 @@ export default class Editor extends Component {
     error: null
   }
 
-  componentWillMount () {
+  componentDidMount () {
+    this.lodashLab = new LodashLabService(this.refs.lodashLab)
+
     fetch('http://api.jsdelivr.com/v1/jsdelivr/libraries/lodash')
       .then(response => response.json())
       .then(cdn => {
         const [{versions}] = cdn
-        this.lodashLab.onload = () => {
-          this.lodashLab.switchLodash(versions[0], () => null)
-        }
+        this.lodashLab.switchLodash(versions[0])
         this.setState({versions, currentVersion: versions[0]})
       })
-  }
-
-  componentDidMount () {
-    this.lodashLab = document.getElementById('lodash-lab').contentWindow
   }
 
   onChangeContent = (content) => {
@@ -45,7 +41,6 @@ export default class Editor extends Component {
 
     try {
       const [result, stats] = this.lodashLab.execute(
-        LodashWrapper,
         content,
         data.length > 0 ? data : null
       )
@@ -178,7 +173,7 @@ export default class Editor extends Component {
             })
           }
         </div>
-        <iframe src='lodash.html' id='lodash-lab' style={{display: 'none'}} />
+        <iframe src='lodash.html' ref='lodashLab' style={{display: 'none'}} />
       </Grid>
     )
   }
