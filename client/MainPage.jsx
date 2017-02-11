@@ -104,6 +104,7 @@ export default class Editor extends Component {
 
     this.lodashLab.switchLodash(value, (a) => {
       console.info(a)
+      this.processContent(this.state.content)
     })
   }
 
