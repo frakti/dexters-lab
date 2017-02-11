@@ -6,6 +6,7 @@ import JavaScriptEditor from './JavaScriptEditor'
 import LodashWrapper from './LodashWrapper'
 import {Alert, Button, Grid, Row, Col, Label} from 'react-bootstrap'
 import packageJson from '../package.json'
+import copy from 'copy-to-clipboard'
 
 export default class Editor extends Component {
   state = {
@@ -29,7 +30,7 @@ export default class Editor extends Component {
 
       this.setState((prevState) => {
         if (!_.isEqual(prevState.result, result)) {
-          ga('send', 'event', 'Processor', 'new-result');
+          ga('send', 'event', 'Transformer', 'new-result');
         }
 
         return {
@@ -59,7 +60,12 @@ export default class Editor extends Component {
     // Temporal workaround to process content after replacing editor value
     setTimeout(() => this.processContent(this.state.content), 0)
 
-    ga('send', 'event', 'Example', 'click');
+    ga('send', 'event', 'Transformer', 'use-example');
+  }
+
+  onCopyToClipboard = () => {
+    copy(this.state.content)
+    ga('send', 'event', 'Transformer', 'copy-to-clipboard');
   }
 
   onBeautifyJson = () => {
@@ -90,6 +96,7 @@ export default class Editor extends Component {
               defaultValue={content}
             />
           <Button onClick={this.onUseExample} className='m-a'>Use example</Button>
+          <Button onClick={this.onCopyToClipboard} className='m-a'>Copy to clipboard</Button>
           </Col>
           <Col md={6}>
             <h3>Input data</h3>
