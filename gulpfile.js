@@ -6,6 +6,7 @@ const source = require('vinyl-source-stream')
 const uglify = require('gulp-uglify')
 const buffer = require('vinyl-buffer')
 const gutil = require('gulp-util')
+const serve = require('gulp-serve')
 
 const errorHandler = function (err) {
   gutil.log('Error', gutil.colors.red(err))
@@ -51,3 +52,8 @@ gulp.task('watch', () => {
 
   bundle(b)
 })
+
+gulp.task('serve', serve({
+  root: ['docs'],
+  port: 9090
+}))
