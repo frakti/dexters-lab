@@ -146,6 +146,17 @@ export default class Editor extends Component {
             />
           <Button onClick={this.onUseExample} className='m-a'>Use example</Button>
           <Button onClick={this.onCopyToClipboard} className='m-a'>Copy to clipboard</Button>
+
+          <section>
+              <small>
+                  Hints:
+                  <ul>
+                      <li>Use <code>return</code> statement to see result</li>
+                      <li>Lodash is exported under <code>_</code> variable</li>
+                      <li>Input data is available under <code>data</code> variable</li>
+                  </ul>
+              </small>
+          </section>
           </Col>
           <Col md={6}>
             <h3>Input data</h3>
