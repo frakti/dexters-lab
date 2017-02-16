@@ -10,7 +10,10 @@ export default class LodashWrapper {
         return
       }
 
-      const stringifiedArgs = JSON.stringify(args, null, 2)
+      const stringifiedArgs = JSON.stringify(args, (key, value) => {
+        if (typeof (value) === 'function') return '<function>'
+        return value
+      }, 2)
 
       let inputDataPrefix = ''
 
@@ -22,7 +25,7 @@ export default class LodashWrapper {
         step: step++,
         funcName: name,
         isChained,
-        execution: `${name}(${inputDataPrefix}${stringifiedArgs.slice(1, -1)})`,
+        execution: `${name}(${inputDataPrefix}${stringifiedArgs.slice(1, -1).replace(/"<function>"/, '<function>')})`,
         args: stringifiedArgs,
         result: JSON.stringify(result, null, 2)
       })
