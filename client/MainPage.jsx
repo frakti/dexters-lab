@@ -184,17 +184,14 @@ export default class Editor extends Component {
 
               return <Row key={step.step}>
                 <Col md={1}>
-                  Step: {step.step}
-                </Col>
-                <Col md={2}>
-                  <small>Function:</small><br />
+                  <small>Step {step.step}:</small><br />
                   <a href={docLink} target="_blank">{step.funcName}</a>
                 </Col>
                 <Col md={6}>
-                  Input: <pre>{step.execution}</pre>
+                  <small>Invocation:</small> <pre>{step.execution}</pre>
                 </Col>
-                <Col md={3}>
-                  Output: <pre>{step.result}</pre>
+                <Col md={5}>
+                  <small>Output</small> <pre>{step.result}</pre>
                 </Col>
                 <hr />
               </Row>
