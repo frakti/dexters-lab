@@ -5,7 +5,7 @@ export default class LodashWrapper {
     this.steps = []
     let step = 1
 
-    const record = (name, args, result) => {
+    const record = (name, isChained, args, result) => {
       if (name === 'chain' || typeof (name) === 'undefined') {
         return
       }
@@ -14,6 +14,7 @@ export default class LodashWrapper {
         step: step++,
         funcName: name,
         args: JSON.stringify(args, null, 2),
+        isChained,
         result: JSON.stringify(result, null, 2)
       })
     }
@@ -36,11 +37,11 @@ export default class LodashWrapper {
         const result = original.apply(thisArg, args)
 
         if (result.__wrapped__) {
-          record(original.dexterLabFuncName, args, result.value())
+          record(original.dexterLabFuncName, true, args, result.value())
           return new Proxy(result, handler)
         }
 
-        record(original.dexterLabFuncName, args, result)
+        record(original.dexterLabFuncName, false, args, result)
         return result
       }
     }
