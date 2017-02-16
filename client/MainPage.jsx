@@ -191,7 +191,7 @@ export default class Editor extends Component {
                   <a href={docLink} target="_blank">{step.funcName}</a>
                 </Col>
                 <Col md={6}>
-                  Input: <pre>{step.args}</pre>
+                  Input: <pre>{step.execution}</pre>
                 </Col>
                 <Col md={3}>
                   Output: <pre>{step.result}</pre>

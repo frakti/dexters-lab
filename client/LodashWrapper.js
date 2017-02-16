@@ -10,11 +10,14 @@ export default class LodashWrapper {
         return
       }
 
+      const stringifiedArgs = JSON.stringify(args, null, 2)
+
       this.steps.push({
         step: step++,
         funcName: name,
-        args: JSON.stringify(args, null, 2),
         isChained,
+        execution: `${name}(${stringifiedArgs.slice(1, -1)})`,
+        args: stringifiedArgs,
         result: JSON.stringify(result, null, 2)
       })
     }
