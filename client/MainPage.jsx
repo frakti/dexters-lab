@@ -119,7 +119,7 @@ export default class Editor extends Component {
   }
 
   render () {
-    const {content, data, stats, result, error, versions, isLabLoaded} = this.state
+    const {content, data, stats, result, error, currentVersion, versions, isLabLoaded} = this.state
 
     const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
     return (
@@ -180,12 +180,15 @@ export default class Editor extends Component {
           <h3>Steps</h3>
           {
             _.map(stats, (step) => {
+              const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
+
               return <Row key={step.step}>
                 <Col md={1}>
                   Step: {step.step}
                 </Col>
                 <Col md={2}>
-                  Function: <pre>{step.funcName}</pre>
+                  <small>Function:</small><br />
+                  <a href={docLink} target="_blank">{step.funcName}</a>
                 </Col>
                 <Col md={6}>
                   Input: <pre>{step.args}</pre>
