@@ -12,11 +12,17 @@ export default class LodashWrapper {
 
       const stringifiedArgs = JSON.stringify(args, null, 2)
 
+      let inputDataPrefix = ''
+
+      if (isChained) {
+        inputDataPrefix = args.length > 0 ? '\n  <input>,' : '<input>'
+      }
+
       this.steps.push({
         step: step++,
         funcName: name,
         isChained,
-        execution: `${name}(${stringifiedArgs.slice(1, -1)})`,
+        execution: `${name}(${inputDataPrefix}${stringifiedArgs.slice(1, -1)})`,
         args: stringifiedArgs,
         result: JSON.stringify(result, null, 2)
       })
