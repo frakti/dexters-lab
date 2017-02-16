@@ -1,6 +1,6 @@
 {
   "name": "dexters-lab",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Lodash chain steps visualization tool",
   "main": "index.js",
   "scripts": {
