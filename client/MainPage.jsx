@@ -139,9 +139,7 @@ export default class Editor extends Component {
         </FormControl>
         </nav>
 
-        <main>
-          {this.renderMain()}
-        </main>
+        {this.renderMain()}
       </div>
     )
   }
@@ -150,31 +148,22 @@ export default class Editor extends Component {
     const {content, data, stats, result, error, currentVersion} = this.state
 
     return (
-      <Grid>
-        <Row>
-          <Col md={6}>
-            <h3>Editor</h3>
+      <main>
+        <div id='editors'>
+          <div id='function'>
+            <h2>Editor</h2>
             <JavaScriptEditor
               ref='editor'
               onChange={this.onChangeContent}
               defaultValue={content}
-            />
-          <Button onClick={this.onUseExample} className='m-a'>Use example</Button>
-          <Button onClick={this.onCopyToClipboard} className='m-a'>Copy to clipboard</Button>
+              />
+            <Button onClick={this.onUseExample} className='m-a'>Use example</Button>
+            <Button onClick={this.onCopyToClipboard} className='m-a'>Copy to clipboard</Button>
 
-          <section>
-              <small>
-                  Hints:
-                  <ul>
-                      <li>Use <code>return</code> statement to see result</li>
-                      <li>Lodash is exported under <code>_</code> variable</li>
-                      <li>Input data is available under <code>data</code> variable</li>
-                  </ul>
-              </small>
-          </section>
-          </Col>
-          <Col md={6}>
-            <h3>Input data</h3>
+          </div>
+
+          <div id='input-data'>
+            <h2>Input data</h2>
             <JavaScriptEditor
               ref='inputData'
               json
@@ -183,38 +172,52 @@ export default class Editor extends Component {
                 this.processContent(this.state.content, data)
               }}
               defaultValue={data}
-            />
+              />
             <Button onClick={this.onBeautifyJson} className='m-a'>Beautify JSON</Button>
-          </Col>
-        </Row>
+          </div>
 
-        <div className='preview'>
-          {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
-          <h3>Result</h3>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
-          <h3>Steps</h3>
-          {
-            _.map(stats, (step) => {
-              const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
-
-              return <Row key={step.step}>
-                <Col md={1}>
-                  <small>Step {step.step}:</small><br />
-                  <a href={docLink} target="_blank">{step.funcName}</a>
-                </Col>
-                <Col md={6}>
-                  <small>Invocation:</small> <pre>{step.execution}</pre>
-                </Col>
-                <Col md={5}>
-                  <small>Output</small> <pre>{step.result}</pre>
-                </Col>
-                <hr />
-              </Row>
-            })
-          }
+          <section>
+              <small>
+                  <h2>Tips</h2>
+                  <ul>
+                      <li>Use <code>return</code> statement to see result</li>
+                      <li>Lodash is exported under <code>_</code> variable</li>
+                      <li>Input data is available under <code>data</code> variable</li>
+                  </ul>
+              </small>
+          </section>
         </div>
+
+        <div id='results'>
+          <div className='preview'>
+            {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
+            <h2>Result</h2>
+            <pre>{JSON.stringify(result, null, 2)}</pre>
+            <h2>Steps</h2>
+            {
+              _.map(stats, (step) => {
+                const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
+
+                return <Row key={step.step}>
+                  <Col md={1}>
+                    <small>Step {step.step}:</small><br />
+                    <a href={docLink} target="_blank">{step.funcName}</a>
+                  </Col>
+                  <Col md={6}>
+                    <small>Invocation:</small> <pre>{step.execution}</pre>
+                  </Col>
+                  <Col md={5}>
+                    <small>Output</small> <pre>{step.result}</pre>
+                  </Col>
+                  <hr />
+                </Row>
+              })
+            }
+          </div>
+        </div>
+
         <iframe src='lodash.html' ref='lodashLab' style={{display: 'none'}} />
-      </Grid>
+      </main>
     )
   }
 }

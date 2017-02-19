@@ -27,5 +27,19 @@ html, body, #react-root {
   > main {
     position: absolute;
     top: $header-height + $nav-height;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+
+    #editors {
+      flex-grow: 0;
+      width: 450px;
+      padding-left: 15px;
+    }
+
+    #results {
+      flex-grow: 1;
+      padding: 0 15px;
+    }
   }
 }
