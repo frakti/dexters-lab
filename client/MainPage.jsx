@@ -9,6 +9,7 @@ import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
 import 'whatwg-fetch'
 import Icon from 'react-fontawesome'
+import examplePicker from './examplePicker'
 
 export default class Editor extends Component {
   state = {
@@ -75,19 +76,14 @@ export default class Editor extends Component {
   }
 
   onUseExample = () => {
-    const data = `[{"city": "Rybnik"}, {"city": "Warszawa"}, {"city": "Katowice"}]`
-    const content =`return _(data)
-      .map('city')
-      .sortBy()
-      .value()`
+    const example = examplePicker(this.state.currentLib)
+    this.setState(example)
 
-    this.setState({data, content})
-
-    this.refs.inputData.editor.setValue(data)
-    this.refs.editor.editor.setValue(content)
+    this.refs.inputData.editor.setValue(example.data)
+    this.refs.editor.editor.setValue(example.content)
 
     // Temporal workaround to process content after replacing editor value
-    setTimeout(() => this.processContent(content, data), 0)
+    setTimeout(() => this.processContent(example.content, example.data), 0)
 
     ga('send', 'event', 'Transformer', 'use-example', this.state.currentVersion);
   }
