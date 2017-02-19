@@ -36,16 +36,21 @@ export default class LodashWrapper {
       _.keys(_)
     )
 
-    const appendArgs = (args, nextArgs) => {
-      if (args.indexOf(this.lodash.__) === -1) {
-        return args.push(...nextArgs)
+    const concatArgs = (prevArgs, nextArgs) => {
+      if (prevArgs.indexOf(this.lodash.__) === -1) {
+        return prevArgs.concat(nextArgs)
       }
 
+      const inputArgs = prevArgs.slice(0)
+      const tempNextArgs = nextArgs.slice(0)
       // replace placeholders
-      const i = args.indexOf(this.lodash.__)
-      args[i] = nextArgs.shift()
 
-      if (nextArgs.length > 0) appendArgs(args, nextArgs)
+      const i = inputArgs.indexOf(this.lodash.__)
+      inputArgs[i] = tempNextArgs.shift()
+
+      if (tempNextArgs.length > 0) return concatArgs(inputArgs, tempNextArgs)
+
+      return inputArgs
     }
 
     const handler = {
@@ -63,33 +68,28 @@ export default class LodashWrapper {
       apply: (original, thisArg, args) => {
         const result = original.apply(thisArg, args)
 
-        const wrapped = (func) => {
+        const wrapped = (prevArgs, func) => {
           return (...nextArgs) => {
-            console.info('wrapped')
-            appendArgs(
-              args,
-              // Copy an array
-              nextArgs.slice(0)
-            )
+            const inputArgs = concatArgs(prevArgs, nextArgs)
 
             const res = func.apply(thisArg, nextArgs)
 
-            return summary(res)
+            return summary(inputArgs, res)
           }
         }
 
-        const summary = (res) => {
+        const summary = (inputArgs, res) => {
           if (typeof (res) === 'function') {
-            return wrapped(res)
+            return wrapped(inputArgs, res)
           }
 
-          record(original.dexterLabFuncName, false, args, res)
+          record(original.dexterLabFuncName, false, inputArgs, res)
 
           // Return final result
           return res
         }
 
-        return summary(result)
+        return summary(args, result)
       }
     }
 
