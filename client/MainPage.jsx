@@ -125,7 +125,7 @@ export default class Editor extends Component {
     return (
       <div id='lab-layout'>
         <header>
-          <h1 className='title'>Dexter's Labs <sup>v{packageJson.version}</sup> {loader}</h1>
+          <h1 className='title'>Dexter's Lab <sup>v{packageJson.version}</sup> {loader}</h1>
         </header>
         <nav>
         lib:
