@@ -13,8 +13,8 @@ export default function LodashLabService (iframe) {
   }
 
   return {
-    switchLodash: (version, done = () => null) => {
-      runOnReady(() => lodashLab.switchLodash(version, done))
+    switchLib: (version, done = () => null) => {
+      runOnReady(() => lodashLab.switchLib('lodash', version, done))
     },
     execute: (body, data) => lodashLab.execute(LodashWrapper, body, data),
     version: () => {
