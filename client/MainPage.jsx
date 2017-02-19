@@ -15,6 +15,7 @@ export default class Editor extends Component {
     content: '',
     data: '',
     stats: [],
+    currentLib: 'lodash',
     currentVersion: null,
     versions: [],
     result: null,
@@ -29,7 +30,7 @@ export default class Editor extends Component {
       .then(response => response.json())
       .then(cdn => {
         const [{versions}] = cdn
-        this.playgroundService.switchLib('lodash', versions[0], () => {
+        this.playgroundService.switchLib(this.state.currentLib, versions[0], () => {
           this.setState({currentVersion: versions[0], isLabLoaded: true})
         })
 
@@ -106,12 +107,24 @@ export default class Editor extends Component {
     } catch (e) {}
   }
 
+  onSwitchLib = (event) => {
+    const {target: {value}} = event
+
+    this.setState({isLabLoaded: false})
+
+    this.playgroundService.switchLib(value, this.state.currentVersion, () => {
+      this.setState({currentLib: value, isLabLoaded: true})
+      ga('send', 'event', 'Transformer', 'switch-version', value);
+      this.processContent(this.state.content, this.state.data)
+    })
+  }
+
   onSwitchLodashVersion = (event) => {
     const {target: {value}} = event
 
     this.setState({isLabLoaded: false})
 
-    this.playgroundService.switchLib('lodash', value, () => {
+    this.playgroundService.switchLib(this.state.currentLib, value, () => {
       this.setState({currentVersion: value, isLabLoaded: true})
       ga('send', 'event', 'Transformer', 'switch-version', value);
       this.processContent(this.state.content, this.state.data)
@@ -129,8 +142,11 @@ export default class Editor extends Component {
         </header>
         <nav>
         lib:
-        <FormControl className='lib-picker' componentClass='select'>
+        <FormControl className='lib-picker' componentClass='select'
+          onChange={this.onSwitchLib}
+        >
           <option>lodash</option>
+          <option>lodash/fp</option>
         </FormControl>
         version:
         <FormControl className='lib-picker' componentClass='select'
