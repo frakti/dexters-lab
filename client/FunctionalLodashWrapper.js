@@ -43,11 +43,16 @@ export default class LodashWrapper {
 
       const inputArgs = prevArgs.slice(0)
       const tempNextArgs = nextArgs.slice(0)
-      // replace placeholders
 
-      while (tempNextArgs.length > 0) {
+      // Replace placeholders
+      while (inputArgs.indexOf(this.lodash.__) !== -1 && tempNextArgs.length > 0) {
         const i = inputArgs.indexOf(this.lodash.__)
         inputArgs[i] = tempNextArgs.shift()
+      }
+
+      // If there are non-placeholder related args left
+      if (tempNextArgs.length > 0) {
+        return inputArgs.concat(tempNextArgs)
       }
 
       return inputArgs
