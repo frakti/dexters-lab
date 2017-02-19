@@ -119,7 +119,7 @@ export default class Editor extends Component {
   }
 
   render () {
-    const {isLabLoaded} = this.state
+    const {versions, isLabLoaded} = this.state
     const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
 
     return (
@@ -127,6 +127,13 @@ export default class Editor extends Component {
         <header>
           <h1 className='title'>Dexter's Labs <sup>v{packageJson.version}</sup> {loader}</h1>
         </header>
+        <nav>
+        lib: <strong>lodash</strong> version:
+        <FormControl className='version-picker' componentClass='select'
+          placeholder='select' onChange={this.onSwitchLodashVersion}>
+          {_.map(versions, version => <option key={version}>{version}</option>)}
+        </FormControl>
+        </nav>
 
         <main>
           {this.renderMain()}
@@ -136,17 +143,10 @@ export default class Editor extends Component {
   }
 
   renderMain () {
-    const {content, data, stats, result, error, currentVersion, versions} = this.state
+    const {content, data, stats, result, error, currentVersion} = this.state
 
     return (
       <Grid>
-        <InputGroup style={{width: '170px'}}>
-          Lodash
-          <FormControl componentClass="select" placeholder="select" onChange={this.onSwitchLodashVersion}>
-            {_.map(versions, version => <option key={version}>{version}</option>)}
-          </FormControl>
-        </InputGroup>
-
         <Row>
           <Col md={6}>
             <h3>Editor</h3>
