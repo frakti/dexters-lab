@@ -16,6 +16,7 @@
   "dependencies": {
     "brace": "^0.9.1",
     "copy-to-clipboard": "^3.0.5",
+    "font-awesome": "^4.7.0",
     "lodash": "4.17.2",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
