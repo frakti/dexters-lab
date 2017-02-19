@@ -111,7 +111,7 @@ export default class Editor extends Component {
 
     this.setState({isLabLoaded: false})
 
-    this.lodashLab.switchLodash(value, () => {
+    this.lodashLab.switchLib('lodash', value, () => {
       this.setState({currentVersion: value, isLabLoaded: true})
       ga('send', 'event', 'Transformer', 'switch-version', value);
       this.processContent(this.state.content, this.state.data)

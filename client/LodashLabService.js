@@ -1,8 +1,10 @@
 'use strict'
 
-import LodashWrapper from './LodashWrapper'
+import LodashWrapper from './wrappers/Lodash'
+import LodashFpWrapper from './wrappers/FunctionalLodash'
 
 export default function LodashLabService (iframe) {
+  let activePlaygroundLib = 'lodash'
   const lodashLab = iframe.contentWindow
   const runOnReady = (done) => {
     if (lodashLab.document.readyState === 'complete') {
@@ -12,11 +14,19 @@ export default function LodashLabService (iframe) {
     lodashLab.onload = () => done(lodashLab)
   }
 
+  const pickWrapper = () => {
+    if (activePlaygroundLib === 'lodash') return LodashWrapper
+    if (activePlaygroundLib === 'lodash/fp') return LodashFpWrapper
+  }
+
   return {
-    switchLib: (version, done = () => null) => {
-      runOnReady(() => lodashLab.switchLib('lodash', version, done))
+    switchLib: (libName, version, done = () => null) => {
+      runOnReady(() => lodashLab.switchLib(libName, version, () => {
+        activePlaygroundLib = libName
+        done()
+      }))
     },
-    execute: (body, data) => lodashLab.execute(LodashWrapper, body, data),
+    execute: (body, data) => lodashLab.execute(pickWrapper(), body, data),
     version: () => {
       return lodashLab._ ? lodashLab._.VERSION : null
     }
