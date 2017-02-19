@@ -30,6 +30,7 @@ html, body, #react-root {
     bottom: 0;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
 
     #editors {
       flex-grow: 0;
