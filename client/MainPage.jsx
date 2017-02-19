@@ -143,14 +143,15 @@ export default class Editor extends Component {
         <nav>
         lib:
         <FormControl className='lib-picker' componentClass='select'
-          onChange={this.onSwitchLib}
+          onChange={this.onSwitchLib} disabled={!isLabLoaded}
         >
           <option>lodash</option>
           <option>lodash/fp</option>
         </FormControl>
         version:
         <FormControl className='lib-picker' componentClass='select'
-          onChange={this.onSwitchLodashVersion}>
+          onChange={this.onSwitchLodashVersion} disabled={!isLabLoaded}
+        >
           {_.map(versions, version => <option key={version}>{version}</option>)}
         </FormControl>
         <div className='right-nav'>
