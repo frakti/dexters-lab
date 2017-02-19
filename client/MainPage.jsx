@@ -128,9 +128,13 @@ export default class Editor extends Component {
           <h1 className='title'>Dexter's Labs <sup>v{packageJson.version}</sup> {loader}</h1>
         </header>
         <nav>
-        lib: <strong>lodash</strong> version:
-        <FormControl className='version-picker' componentClass='select'
-          placeholder='select' onChange={this.onSwitchLodashVersion}>
+        lib:
+        <FormControl className='lib-picker' componentClass='select'>
+          <option>lodash</option>
+        </FormControl>
+        version:
+        <FormControl className='lib-picker' componentClass='select'
+          onChange={this.onSwitchLodashVersion}>
           {_.map(versions, version => <option key={version}>{version}</option>)}
         </FormControl>
         </nav>
