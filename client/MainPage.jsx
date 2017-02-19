@@ -56,7 +56,10 @@ export default class Editor extends Component {
 
       this.setState((prevState) => {
         if (!_.isEqual(prevState.result, result)) {
-          ga('send', 'event', 'Transformer', 'new-result', this.state.currentVersion);
+          woopra.track('new-result', {
+            version: this.state.currentVersion,
+            library: this.state.currentLib
+          })
         }
 
         return {
@@ -85,12 +88,18 @@ export default class Editor extends Component {
     // Temporal workaround to process content after replacing editor value
     setTimeout(() => this.processContent(example.content, example.data), 0)
 
-    ga('send', 'event', 'Transformer', 'use-example', this.state.currentVersion);
+    woopra.track('use-example', {
+      version: this.state.currentVersion,
+      library: this.state.currentLib
+    })
   }
 
   onCopyToClipboard = () => {
     copy(this.state.content)
-    ga('send', 'event', 'Transformer', 'copy-to-clipboard', this.state.currentVersion);
+    woopra.track('copy-to-clipboard', {
+      version: this.state.currentVersion,
+      library: this.state.currentLib
+    });
   }
 
   onBeautifyJson = () => {
@@ -99,7 +108,10 @@ export default class Editor extends Component {
     try {
       const json = JSON.parse(data)
       this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2));
-      ga('send', 'event', 'Input Data', 'beautify');
+      woopra.track('beautify-input-data', {
+        version: this.state.currentVersion,
+        library: this.state.currentLib
+      })
     } catch (e) {}
   }
 
@@ -110,7 +122,10 @@ export default class Editor extends Component {
 
     this.playgroundService.switchLib(value, this.state.currentVersion, () => {
       this.setState({currentLib: value, isLabLoaded: true})
-      ga('send', 'event', 'Transformer', 'switch-version', value);
+      woopra.track('switch-library', {
+        version: this.state.currentVersion,
+        library: value
+      })
       this.processContent(this.state.content, this.state.data)
     })
   }
@@ -122,7 +137,10 @@ export default class Editor extends Component {
 
     this.playgroundService.switchLib(this.state.currentLib, value, () => {
       this.setState({currentVersion: value, isLabLoaded: true})
-      ga('send', 'event', 'Transformer', 'switch-version', value);
+      woopra.track('switch-version', {
+        version: value,
+        library: this.state.currentLib
+      })
       this.processContent(this.state.content, this.state.data)
     })
   }
