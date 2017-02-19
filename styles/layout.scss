@@ -22,6 +22,13 @@ html, body, #react-root {
     top: $header-height;
     height: $nav-height;
     width: 100%;
+
+    .right-nav {
+      position: absolute;
+      top: 6px;
+      right: 15px;
+      display: inline-block;
+    }
   }
 
   > main {

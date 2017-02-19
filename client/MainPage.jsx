@@ -137,6 +137,9 @@ export default class Editor extends Component {
           onChange={this.onSwitchLodashVersion}>
           {_.map(versions, version => <option key={version}>{version}</option>)}
         </FormControl>
+        <div className='right-nav'>
+          <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a> <span className='delimiter'>|</span> <a href='https://github.com/frakti/dexters-lab'>GitHub</a>
+        </div>
         </nav>
 
         {this.renderMain()}
