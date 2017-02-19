@@ -39,6 +39,11 @@ html, body, #react-root {
     display: flex;
     flex-wrap: wrap;
 
+    h2 {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+
     #editors {
       flex-grow: 0;
       width: 450px;
