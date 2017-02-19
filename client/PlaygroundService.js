@@ -3,7 +3,7 @@
 import LodashWrapper from './wrappers/Lodash'
 import LodashFpWrapper from './wrappers/FunctionalLodash'
 
-export default function LodashLabService (iframe) {
+export default function PlaygroundService (iframe) {
   let activePlaygroundLib = 'lodash'
   const lodashLab = iframe.contentWindow
   const runOnReady = (done) => {

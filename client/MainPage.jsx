@@ -3,7 +3,7 @@
 import _ from 'lodash'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
-import LodashLabService from './LodashLabService'
+import PlaygroundService from './PlaygroundService'
 import {Alert, Button, Grid, Row, Col, Label, FormControl, InputGroup} from 'react-bootstrap'
 import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
@@ -23,13 +23,13 @@ export default class Editor extends Component {
   }
 
   componentDidMount () {
-    this.lodashLab = new LodashLabService(this.refs.lodashLab)
+    this.playgroundService = new PlaygroundService(this.refs.lodashLab)
 
     fetch('http://api.jsdelivr.com/v1/jsdelivr/libraries/lodash')
       .then(response => response.json())
       .then(cdn => {
         const [{versions}] = cdn
-        this.lodashLab.switchLodash(versions[0], () => {
+        this.playgroundService.switchLib('lodash', versions[0], () => {
           this.setState({currentVersion: versions[0], isLabLoaded: true})
         })
 
@@ -47,7 +47,7 @@ export default class Editor extends Component {
     if (!isLabLoaded) return
 
     try {
-      const [result, stats] = this.lodashLab.execute(
+      const [result, stats] = this.playgroundService.execute(
         content,
         data.length > 0 ? data : null
       )
@@ -111,7 +111,7 @@ export default class Editor extends Component {
 
     this.setState({isLabLoaded: false})
 
-    this.lodashLab.switchLib('lodash', value, () => {
+    this.playgroundService.switchLib('lodash', value, () => {
       this.setState({currentVersion: value, isLabLoaded: true})
       ga('send', 'event', 'Transformer', 'switch-version', value);
       this.processContent(this.state.content, this.state.data)
