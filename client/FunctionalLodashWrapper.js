@@ -45,10 +45,10 @@ export default class LodashWrapper {
       const tempNextArgs = nextArgs.slice(0)
       // replace placeholders
 
-      const i = inputArgs.indexOf(this.lodash.__)
-      inputArgs[i] = tempNextArgs.shift()
-
-      if (tempNextArgs.length > 0) return concatArgs(inputArgs, tempNextArgs)
+      while (tempNextArgs.length > 0) {
+        const i = inputArgs.indexOf(this.lodash.__)
+        inputArgs[i] = tempNextArgs.shift()
+      }
 
       return inputArgs
     }
