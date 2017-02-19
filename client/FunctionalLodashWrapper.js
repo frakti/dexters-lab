@@ -31,7 +31,22 @@ export default class LodashWrapper {
       })
     }
 
-    const availableFunctions = _.keys(_)
+    const availableFunctions = _.reject(
+      name => ['__', 'placeholder', 'VERSION'].includes(name),
+      _.keys(_)
+    )
+
+    const appendArgs = (args, nextArgs) => {
+      if (args.indexOf(this.lodash.__) === -1) {
+        return args.push(...nextArgs)
+      }
+
+      // replace placeholders
+      const i = args.indexOf(this.lodash.__)
+      args[i] = nextArgs.shift()
+
+      if (nextArgs.length > 0) appendArgs(args, nextArgs)
+    }
 
     const handler = {
       get: (original, propertyName) => {
@@ -39,7 +54,6 @@ export default class LodashWrapper {
           return original[propertyName]
         }
 
-        // console.info(`Getting ${propertyName}`)
         original[propertyName].dexterLabFuncName = propertyName
         return new Proxy(original[propertyName], funcHandler)
       }
@@ -51,7 +65,12 @@ export default class LodashWrapper {
 
         const wrapped = (func) => {
           return (...nextArgs) => {
-            args.push(...nextArgs)
+            console.info('wrapped')
+            appendArgs(
+              args,
+              // Copy an array
+              nextArgs.slice(0)
+            )
 
             const res = func.apply(thisArg, nextArgs)
 
