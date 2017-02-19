@@ -53,6 +53,7 @@ html, body, #react-root {
     #results {
       flex-grow: 1;
       padding: 15px;
+      overflow: auto;
     }
   }
 }
