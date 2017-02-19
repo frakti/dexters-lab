@@ -119,18 +119,29 @@ export default class Editor extends Component {
   }
 
   render () {
-    const {content, data, stats, result, error, currentVersion, versions, isLabLoaded} = this.state
-
+    const {isLabLoaded} = this.state
     const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
+
+    return (
+      <div id='lab-layout'>
+        <header>
+          <h1 className='title'>Dexter's Labs <sup>v{packageJson.version}</sup> {loader}</h1>
+        </header>
+
+        <main>
+          {this.renderMain()}
+        </main>
+      </div>
+    )
+  }
+
+  renderMain () {
+    const {content, data, stats, result, error, currentVersion, versions} = this.state
+
     return (
       <Grid>
-        <h2 style={{marginBottom: 0}}>Dexter's Labs {loader}</h2>
-        <Label bsStyle="success">v{packageJson.version}</Label>
-        {' '}
-        <br />
-        <br />
         <InputGroup style={{width: '170px'}}>
-          <InputGroup.Addon>Lodash</InputGroup.Addon>
+          Lodash
           <FormControl componentClass="select" placeholder="select" onChange={this.onSwitchLodashVersion}>
             {_.map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>

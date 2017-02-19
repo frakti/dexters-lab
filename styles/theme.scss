@@ -1,0 +1,15 @@
+#lab-layout {
+  > header {
+    background-color: #1e1e1e;
+    color: white;
+    box-shadow: 0px 2px 10px 0 rgba(0,0,0,0.5);
+
+    h1.title {
+      font-size: 20px;
+      margin: 20px;
+      sup {
+        color: grey;
+      }
+    }
+  }
+}
