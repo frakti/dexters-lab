@@ -1,8 +1,8 @@
 #lab-layout {
   > header {
-    background-color: #1e1e1e;
+    background-color: #272822;
     box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.5);
-    color: white;
+    color: #A6E22E;
     z-index: 2;
     h1.title {
       font-size: 20px;
@@ -30,6 +30,10 @@
 
     a {
       color: black;
+
+      &:hover {
+        color: #F92672;
+      }
     }
 
     .delimiter {
