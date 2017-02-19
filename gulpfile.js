@@ -37,13 +37,20 @@ const bundle = (bundler, outputSource) => {
     .pipe(gulp.dest('./docs'))
 }
 
-gulp.task('build', function () {
+gulp.task('build', ['fonts', 'styles'], function () {
   bundler()
     .bundle()
     .pipe(source('main.js'))
     .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest('./docs'))
+})
+
+gulp.task('fonts', () => {
+  return gulp.src([
+    'node_modules/font-awesome/fonts/*'
+  ])
+  .pipe(gulp.dest('./docs/fonts'))
 })
 
 gulp.task('styles', function () {
@@ -54,7 +61,7 @@ gulp.task('styles:watch', ['styles'], function () {
   return gulp.watch('./styles/*.scss', ['styles'])
 })
 
-gulp.task('watch', ['styles:watch'], () => {
+gulp.task('watch', ['fonts', 'styles:watch'], () => {
   const b = bundler({
     plugin: ['watchify'],
     cache: {},
