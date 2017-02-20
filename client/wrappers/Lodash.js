@@ -1,5 +1,7 @@
 'use strict'
 
+const shortcutFusionFunctions = ['last', 'head', 'first', 'find', 'findLast', 'reverse']
+
 export default class LodashWrapper {
   constructor (_) {
     this.steps = []
@@ -19,6 +21,21 @@ export default class LodashWrapper {
 
       if (isChained) {
         inputDataPrefix = args.length > 0 ? '\n  <input>,' : '<input>'
+      }
+
+      const last = _.last(this.steps)
+      /**
+       * When we use chaining, some of short fusion functions fire `thru`
+       * making steps list confusing, We are going to remove that step.
+       * Those methods are not marked as `isChained` they are
+       * by default "not" chainable (you can't chain further as long as
+       * you didn't use _.chain())
+       */
+      if (
+        shortcutFusionFunctions.includes(name) &&
+        last && last.funcName === 'thru' && last.isChained
+      ) {
+        this.steps.pop()
       }
 
       this.steps.push({
