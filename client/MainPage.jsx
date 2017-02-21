@@ -49,7 +49,7 @@ export default class Editor extends Component {
   processContent = (content, data) => {
     const {isLabLoaded} = this.state
 
-    if (!isLabLoaded) return
+    if (!isLabLoaded || (isEqual(content, this.state.content) && isEqual(data, this.state.data))) return
 
     try {
       const [result, stats] = this.playgroundService.execute(
@@ -58,7 +58,7 @@ export default class Editor extends Component {
       )
 
       this.setState((prevState) => {
-        if (!isEqual(prevState.result, result)) {
+        if (!isEqual(prevState.result, result) && content) {
           woopra.track('new-result', {
             version: this.state.currentVersion,
             library: this.state.currentLib
@@ -85,11 +85,13 @@ export default class Editor extends Component {
     const example = examplePicker(this.state.currentLib)
     this.setState(example)
 
-    this.refs.inputData.editor.setValue(example.data)
-    this.refs.editor.editor.setValue(example.content)
+    this.processContent(example.content, example.data)
 
-    // Temporal workaround to process content after replacing editor value
-    setTimeout(() => this.processContent(example.content, example.data), 0)
+    setTimeout(() => {
+      // Temporal workaround to update editor value after processed the content
+      this.refs.inputData.editor.setValue(example.data)
+      this.refs.editor.editor.setValue(example.content)
+    }, 10)
 
     woopra.track('use-example', {
       version: this.state.currentVersion,
