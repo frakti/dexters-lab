@@ -1,6 +1,7 @@
 'use strict'
 
-import _ from 'lodash'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import PlaygroundService from './PlaygroundService'
@@ -55,7 +56,7 @@ export default class Editor extends Component {
       )
 
       this.setState((prevState) => {
-        if (!_.isEqual(prevState.result, result)) {
+        if (!isEqual(prevState.result, result)) {
           woopra.track('new-result', {
             version: this.state.currentVersion,
             library: this.state.currentLib
@@ -166,7 +167,7 @@ export default class Editor extends Component {
         <FormControl className='lib-picker' componentClass='select'
           onChange={this.onSwitchLodashVersion} disabled={!isLabLoaded}
         >
-          {_.map(versions, version => <option key={version}>{version}</option>)}
+          {map(versions, version => <option key={version}>{version}</option>)}
         </FormControl>
         <div className='right-nav'>
           <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a> <span className='delimiter'>|</span> <a href='https://github.com/frakti/dexters-lab'>GitHub</a>
@@ -229,7 +230,7 @@ export default class Editor extends Component {
             <pre>{JSON.stringify(result, null, 2)}</pre>
             <h2>Steps</h2>
             {
-              _.map(stats, (step) => {
+              map(stats, (step) => {
                 const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
 
                 return <Row key={step.step}>
