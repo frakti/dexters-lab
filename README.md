@@ -1,5 +1,6 @@
 Dexter's Lab
 ============
+![Travis CI](https://travis-ci.org/frakti/dexters-lab.svg?branch=master)
 
 [Try it now](http://dexters-lab.io/) or clone and run:
 ```
