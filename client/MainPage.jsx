@@ -1,3 +1,4 @@
+/* global fetch, woopra */
 'use strict'
 
 import map from 'lodash/map'
@@ -5,7 +6,7 @@ import isEqual from 'lodash/isEqual'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import PlaygroundService from './PlaygroundService'
-import {Alert, Button, Grid, Row, Col, Label, FormControl, InputGroup} from 'react-bootstrap'
+import {Alert, Button, Row, Col, FormControl} from 'react-bootstrap'
 import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
 import 'whatwg-fetch'
@@ -101,7 +102,7 @@ export default class Editor extends Component {
     woopra.track('copy-to-clipboard', {
       version: this.state.currentVersion,
       library: this.state.currentLib
-    });
+    })
   }
 
   onBeautifyJson = () => {
@@ -109,7 +110,7 @@ export default class Editor extends Component {
 
     try {
       const json = JSON.parse(data)
-      this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2));
+      this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2))
       woopra.track('beautify-input-data', {
         version: this.state.currentVersion,
         library: this.state.currentLib
@@ -157,22 +158,22 @@ export default class Editor extends Component {
           <h1 className='title'>Dexter's Lab <sup>v{packageJson.version}</sup> {loader}</h1>
         </header>
         <nav>
-        lib:
-        <FormControl className='lib-picker' componentClass='select'
-          onChange={this.onSwitchLib} disabled={!isLabLoaded}
-        >
-          <option>lodash</option>
-          <option>lodash/fp</option>
-        </FormControl>
-        version:
-        <FormControl className='lib-picker' componentClass='select'
-          onChange={this.onSwitchLodashVersion} disabled={!isLabLoaded}
-        >
-          {map(versions, version => <option key={version}>{version}</option>)}
-        </FormControl>
-        <div className='right-nav'>
-          <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a> <span className='delimiter'>|</span> <a href='https://github.com/frakti/dexters-lab'>GitHub</a>
-        </div>
+          lib:
+          <FormControl className='lib-picker' componentClass='select'
+            onChange={this.onSwitchLib} disabled={!isLabLoaded}
+          >
+            <option>lodash</option>
+            <option>lodash/fp</option>
+          </FormControl>
+          version:
+          <FormControl className='lib-picker' componentClass='select'
+            onChange={this.onSwitchLodashVersion} disabled={!isLabLoaded}
+          >
+            {map(versions, version => <option key={version}>{version}</option>)}
+          </FormControl>
+          <div className='right-nav'>
+            <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a> <span className='delimiter'>|</span> <a href='https://github.com/frakti/dexters-lab'>GitHub</a>
+          </div>
         </nav>
 
         {this.renderMain()}
@@ -213,14 +214,14 @@ export default class Editor extends Component {
           </div>
 
           <section>
-              <small>
-                  <h2>Tips</h2>
-                  <ul>
-                      <li>Use <code>return</code> statement to see result</li>
-                      <li>Lodash is exported under <code>_</code> variable</li>
-                      <li>Input data is available under <code>data</code> variable</li>
-                  </ul>
-              </small>
+            <small>
+              <h2>Tips</h2>
+              <ul>
+                <li>Use <code>return</code> statement to see result</li>
+                <li>Lodash is exported under <code>_</code> variable</li>
+                <li>Input data is available under <code>data</code> variable</li>
+              </ul>
+            </small>
           </section>
         </div>
 
@@ -237,7 +238,7 @@ export default class Editor extends Component {
                 return <Row key={i}>
                   <Col md={1}>
                     <small>Step {i}:</small><br />
-                    <a href={docLink} target="_blank">{step.funcName}</a>
+                    <a href={docLink} target='_blank'>{step.funcName}</a>
                   </Col>
                   <Col md={6}>
                     <small>Invocation:</small> <pre>{step.execution}</pre>

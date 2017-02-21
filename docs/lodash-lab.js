@@ -15,6 +15,7 @@
 
   function executeLodash (Wrapper, body, data) {
     var loWrapper = new Wrapper(window._)
+    // eslint-disable-next-line no-new-func
     var func = new Function('_', 'data', body)
     var result = func(loWrapper.lodash, JSON.parse(data))
 

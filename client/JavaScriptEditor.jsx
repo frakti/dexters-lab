@@ -35,6 +35,6 @@ export default class JavaScriptEditor extends Component {
   }
 
   render () {
-    return <div ref='editor' style={{width: '100%', height: this.props.height}}></div>
+    return <div ref='editor' style={{width: '100%', height: this.props.height}} />
   }
 }
