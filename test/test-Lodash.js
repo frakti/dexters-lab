@@ -82,6 +82,29 @@ describe('wrapper: Lodash ()', function () {
       ])
   })
 
+  it('SHOULD record steps of two lodash methods one result being input of another', function () {
+    const wrapper = new LodashWrapper(_)
+    const data = [{city: 'Rybnik'}, {city: 'Katowice'}]
+
+    wrapper.lodash.first(wrapper.lodash.map(data, 'city'))
+
+    expect(wrapper.stats)
+      .to.be.eql([
+        {
+          funcName: 'map',
+          isChained: false,
+          result: ['Rybnik', 'Katowice'],
+          args: [[{city: 'Rybnik'}, {city: 'Katowice'}], 'city']
+        },
+        {
+          funcName: 'first',
+          isChained: false,
+          result: 'Rybnik',
+          args: [['Rybnik', 'Katowice']]
+        }
+      ])
+  })
+
   it('SHOULD record steps of implicit method chain sequences invocation', function () {
     const wrapper = new LodashWrapper(_)
     const data = [{city: 'Rybnik'}, {city: 'Katowice'}]
