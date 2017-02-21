@@ -5,7 +5,6 @@ const cloneDeep = require('lodash/cloneDeep')
 module.exports = class LodashWrapper {
   constructor (_) {
     this.steps = []
-    let step = 1
 
     const record = (name, isChained, args, result) => {
       if (name === 'chain' || typeof (name) === 'undefined') {
@@ -13,7 +12,6 @@ module.exports = class LodashWrapper {
       }
 
       this.steps.push({
-        step: step++,
         funcName: name,
         isChained,
         args: cloneDeep(args),

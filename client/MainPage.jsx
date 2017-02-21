@@ -231,12 +231,12 @@ export default class Editor extends Component {
             <pre>{JSON.stringify(result, null, 2)}</pre>
             <h2>Steps</h2>
             {
-              map(stepsPrettifier(stats), (step) => {
+              map(stepsPrettifier(stats), (step, i) => {
                 const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
 
-                return <Row key={step.step}>
+                return <Row key={i}>
                   <Col md={1}>
-                    <small>Step {step.step}:</small><br />
+                    <small>Step {i}:</small><br />
                     <a href={docLink} target="_blank">{step.funcName}</a>
                   </Col>
                   <Col md={6}>

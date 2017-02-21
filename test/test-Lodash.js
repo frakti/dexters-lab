@@ -16,21 +16,18 @@ describe('wrapper: Lodash ()', function () {
     expect(wrapper.stats)
       .to.be.eql([
         {
-          step: 1,
           funcName: 'map',
           isChained: true,
           result: ['Rybnik', 'Katowice'],
           args: ['city']
         },
         {
-          step: 2,
           funcName: 'sortBy',
           isChained: true,
           result: ['Katowice', 'Rybnik'],
           args: []
         },
         {
-          step: 4,
           funcName: 'first',
           isChained: true,
           result: 'Katowice',
@@ -48,21 +45,18 @@ describe('wrapper: Lodash ()', function () {
     expect(wrapper.stats)
       .to.be.eql([
         {
-          step: 1,
           funcName: 'map',
           isChained: true,
           result: ['Rybnik', 'Katowice'],
           args: ['city']
         },
         {
-          step: 2,
           funcName: 'sortBy',
           isChained: true,
           result: ['Katowice', 'Rybnik'],
           args: []
         },
         {
-          step: 4,
           funcName: 'first',
           isChained: false,
           result: 'Katowice',
@@ -79,7 +73,6 @@ describe('wrapper: Lodash ()', function () {
 
     expect(wrapper.stats)
       .to.be.eql([{
-        step: 1,
         funcName: 'map',
         isChained: false,
         result: ['Rybnik'],
