@@ -47,7 +47,7 @@ describe('wrapper: Lodash ()', function () {
         {
           funcName: 'find',
           isChained: false,
-          result: [{name: 'Rybnik', residents: 139540}],
+          result: {name: 'Rybnik', residents: 139540},
           args: [{name: 'Rybnik'}]
         }
       ])

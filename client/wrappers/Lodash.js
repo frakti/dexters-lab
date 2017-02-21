@@ -42,10 +42,17 @@ module.exports = class LodashWrapper {
     const _ = this._
 
     const availableFunctions = _.keys(_)
+    let isBeforeApply = false
 
     const handler = {
       get: (original, propertyName) => {
-        if (!availableFunctions.includes(propertyName)) {
+        // Don't proxy ...
+        if (
+          // when processing proxied method - lodash may call some other exposed API in the hood
+          isBeforeApply ||
+          // when property is not any official method
+          !availableFunctions.includes(propertyName)
+        ) {
           return original[propertyName]
         }
 
@@ -54,7 +61,9 @@ module.exports = class LodashWrapper {
       },
 
       apply: (original, thisArg, args) => {
+        isBeforeApply = true
         const result = original.apply(thisArg, args)
+        isBeforeApply = false
 
         if (result && result.__wrapped__) {
           this.record(original.dexterLabFuncName, true, args, result.value())
