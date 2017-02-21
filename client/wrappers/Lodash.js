@@ -1,8 +1,9 @@
 'use strict'
 
 const shortcutFusionFunctions = ['last', 'head', 'first', 'find', 'findLast', 'reverse']
+const cloneDeep = require('lodash/cloneDeep')
 
-export default class LodashWrapper {
+module.exports = class LodashWrapper {
   constructor (_) {
     this.steps = []
     let step = 1
@@ -10,17 +11,6 @@ export default class LodashWrapper {
     const record = (name, isChained, args, result) => {
       if (name === 'chain' || typeof (name) === 'undefined') {
         return
-      }
-
-      const stringifiedArgs = JSON.stringify(args, (key, value) => {
-        if (typeof (value) === 'function') return '<function>'
-        return value
-      }, 2)
-
-      let inputDataPrefix = ''
-
-      if (isChained) {
-        inputDataPrefix = args.length > 0 ? '\n  <input>,' : '<input>'
       }
 
       const last = _.last(this.steps)
@@ -42,9 +32,8 @@ export default class LodashWrapper {
         step: step++,
         funcName: name,
         isChained,
-        execution: `${name}(${inputDataPrefix}${stringifiedArgs.slice(1, -1).replace(/"<function>"/, '<function>')})`,
-        args: stringifiedArgs,
-        result: JSON.stringify(result, null, 2)
+        args: cloneDeep(args),
+        result: cloneDeep(result)
       })
     }
 

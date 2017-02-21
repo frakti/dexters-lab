@@ -11,6 +11,7 @@ import copy from 'copy-to-clipboard'
 import 'whatwg-fetch'
 import Icon from 'react-fontawesome'
 import examplePicker from './examplePicker'
+import stepsPrettifier from './stepsPrettifier'
 
 export default class Editor extends Component {
   state = {
@@ -230,7 +231,7 @@ export default class Editor extends Component {
             <pre>{JSON.stringify(result, null, 2)}</pre>
             <h2>Steps</h2>
             {
-              map(stats, (step) => {
+              map(stepsPrettifier(stats), (step) => {
                 const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
 
                 return <Row key={step.step}>
