@@ -52,7 +52,7 @@ module.exports = class LodashWrapper {
         // console.info(`Calling ${original.dexterLabFuncName}`)
         const result = original.apply(thisArg, args)
 
-        if (result.__wrapped__) {
+        if (result && result.__wrapped__) {
           record(original.dexterLabFuncName, true, args, result.value())
           return new Proxy(result, handler)
         }

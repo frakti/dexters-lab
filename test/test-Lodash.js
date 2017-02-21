@@ -7,6 +7,23 @@ const LodashWrapper = require('../client/wrappers/Lodash')
 const TEST_DATA = require('./fixtures')
 
 describe('wrapper: Lodash ()', function () {
+  it('SHOULD record find with undefined result', function () {
+    const wrapper = new LodashWrapper(_)
+    const data = [{city: 'Rybnik'}, {city: 'Katowice'}]
+
+    wrapper.lodash.find(data, {unknown_param: true})
+
+    expect(wrapper.stats)
+      .to.be.eql([
+        {
+          funcName: 'find',
+          isChained: false,
+          result: undefined,
+          args: [[{city: 'Rybnik'}, {city: 'Katowice'}], {unknown_param: true}]
+        }
+      ])
+  })
+
   it('SHOULD record steps of explicit method chain sequences invocation', function () {
     const wrapper = new LodashWrapper(_)
     const data = [{city: 'Rybnik'}, {city: 'Katowice'}]
