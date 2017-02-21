@@ -232,14 +232,14 @@ export default class Editor extends Component {
             {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
             <h2>Result</h2>
             <pre>{JSON.stringify(result, null, 2)}</pre>
-            <h2>Steps</h2>
+            <h2>Usages</h2>
             {
               map(stepsPrettifier(stats), (step, i) => {
                 const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
 
                 return <Row key={i}>
                   <Col md={1}>
-                    <small>Step {i}:</small><br />
+                    <small>{i + 1})</small><br />
                     <a href={docLink} target='_blank'>{step.funcName}</a>
                   </Col>
                   <Col md={6}>
