@@ -24,6 +24,35 @@ describe('wrapper: Lodash ()', function () {
       ])
   })
 
+  it('SHOULD record steps of chained map mixed with find', function () {
+    const wrapper = new LodashWrapper(_)
+    const data = [
+      {city: {name: 'Rybnik', residents: 139540}},
+      {city: {name: 'Katowice', residents: 299012}}
+    ]
+
+    wrapper.lodash(data).map('city').find({name: 'Rybnik'})
+
+    expect(wrapper.stats)
+      .to.be.eql([
+        {
+          funcName: 'map',
+          isChained: true,
+          result: [
+            {name: 'Rybnik', residents: 139540},
+            {name: 'Katowice', residents: 299012}
+          ],
+          args: ['city']
+        },
+        {
+          funcName: 'find',
+          isChained: false,
+          result: [{name: 'Rybnik', residents: 139540}],
+          args: [{name: 'Rybnik'}]
+        }
+      ])
+  })
+
   it('SHOULD record steps of explicit method chain sequences invocation', function () {
     const wrapper = new LodashWrapper(_)
     const data = [{city: 'Rybnik'}, {city: 'Katowice'}]
