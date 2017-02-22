@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import PlaygroundService from './PlaygroundService'
-import {Alert, Button, Row, Col, FormControl} from 'react-bootstrap'
+import {Alert, Button, Checkbox, Row, Col, FormControl} from 'react-bootstrap'
 import packageJson from '../package.json'
 import copy from 'copy-to-clipboard'
 import 'whatwg-fetch'
@@ -152,6 +152,10 @@ export default class MainPage extends Component {
     })
   }
 
+  onAutoSaveChange = (event) => {
+    console.info(event.target.checked)
+  }
+
   render () {
     const {versions, isLabLoaded} = this.state
     const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
@@ -176,7 +180,11 @@ export default class MainPage extends Component {
             {map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
           <div className='right-nav'>
-            <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a> <span className='delimiter'>|</span> <a href='https://github.com/frakti/dexters-lab'>GitHub</a>
+            <Checkbox className='auto-save' onChange={this.onAutoSaveChange}>Auto save</Checkbox>
+            <span className='delimiter'>|</span>
+            <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a>
+            <span className='delimiter'>|</span>
+            <a href='https://github.com/frakti/dexters-lab'>GitHub</a>
           </div>
         </nav>
 
@@ -270,7 +278,6 @@ export default class MainPage extends Component {
 
   renderAbout () {
     return <div>
-
       <h1 className='welcome'>Welcome in the <span style={{color: '#A6E22E'}}>Lab</span>!</h1>
       <p>
         This is a place where you can experiment with Lodash and Lodash FP (soon Ramda as well!),
