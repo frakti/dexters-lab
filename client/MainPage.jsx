@@ -14,6 +14,7 @@ import Icon from 'react-fontawesome'
 import examplePicker from './examplePicker'
 import stepsPrettifier from './stepsPrettifier'
 import Snippet from './Snippet'
+import beautify from 'json-beautify'
 
 export default class MainPage extends Component {
   state = {
@@ -113,7 +114,7 @@ export default class MainPage extends Component {
 
     try {
       const json = JSON.parse(data)
-      this.refs.inputData.editor.setValue(JSON.stringify(json, null, 2))
+      this.refs.inputData.editor.setValue(beautify(json, null, 2, 50))
       woopra.track('beautify-input-data', {
         version: this.state.currentVersion,
         library: this.state.currentLib
@@ -229,7 +230,7 @@ export default class MainPage extends Component {
           <div className='preview'>
             {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
             <h2>Result</h2>
-            <Snippet json>{JSON.stringify(result, null, 2)}</Snippet>
+            <Snippet json>{beautify(result, null, 2, 80)}</Snippet>
             <h2>Usages</h2>
             {
               map(stepsPrettifier(stats), (step, i) => {
