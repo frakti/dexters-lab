@@ -1,6 +1,7 @@
 /* global fetch, woopra */
 'use strict'
 
+import _ from 'lodash'
 import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import React, {Component} from 'react'
@@ -48,6 +49,7 @@ export default class MainPage extends Component {
         this.playgroundService.switchLib(currentLib, version, () => {
           this.setState({currentVersion: version, isLabLoaded: true})
           this.processContent(content, data)
+          this.isVersionOutdated(versions, version)
         })
 
         this.setState({versions})
@@ -56,6 +58,20 @@ export default class MainPage extends Component {
 
   onChangeContent = (content) => {
     this.processContent(content, this.state.data)
+  }
+
+  isVersionOutdated (versions, version) {
+    const [major] = version.split('.')
+    const newestVersion = _(versions)
+      .filter(version => _.startsWith(version, `${major}.`))
+      .map(version => {
+        const [major, minor, patch] = version.split('.')
+        return [+major, +minor, +patch]
+      })
+      .maxBy(['1', '2', '3'])
+      .join('.')
+
+    this.setState({isVersionOutdated: newestVersion !== version})
   }
 
   processContent = (content, data) => {
@@ -161,6 +177,7 @@ export default class MainPage extends Component {
     this.storage.save({currentVersion: value})
 
     this.playgroundService.switchLib(this.state.currentLib, value, () => {
+      this.isVersionOutdated(this.state.versions, value)
       this.setState({currentVersion: value, isLabLoaded: true})
       woopra.track('switch-version', {
         version: value,
@@ -183,7 +200,7 @@ export default class MainPage extends Component {
   }
 
   render () {
-    const {versions, isLabLoaded, isStorageEnabled, currentLib, currentVersion} = this.state
+    const {versions, isLabLoaded, isStorageEnabled, isVersionOutdated, currentLib, currentVersion} = this.state
     const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
 
     return (
@@ -205,6 +222,9 @@ export default class MainPage extends Component {
           >
             {map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
+          {isVersionOutdated && (
+            <Icon name='exclamation-triangle' fixedWidth className='outdated-version-alert' />
+          )}
           <div className='right-nav'>
             <Checkbox className='auto-save' checked={isStorageEnabled} onChange={this.onAutoSaveChange}>Auto save</Checkbox>
             <span className='delimiter'>|</span>
