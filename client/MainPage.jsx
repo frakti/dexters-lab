@@ -241,7 +241,7 @@ export default class MainPage extends Component {
                     <a href={docLink} target='_blank'>{step.funcName}</a>
                   </Col>
                   <Col md={6}>
-                    <small>Invocation:</small> <pre>{step.execution}</pre>
+                    <small>Invocation:</small> <Snippet>{step.execution}</Snippet>
                   </Col>
                   <Col md={5}>
                     <small>Output</small> <Snippet json>{step.result}</Snippet>

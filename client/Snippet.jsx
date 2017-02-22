@@ -4,7 +4,7 @@ import React, {PureComponent, PropTypes} from 'react'
 import ace from 'brace'
 import 'brace/mode/json'
 import 'brace/mode/javascript'
-import 'brace/theme/monokai'
+import 'brace/theme/tomorrow'
 import 'brace/ext/static_highlight'
 
 const highlight = ace.acequire('ace/ext/static_highlight')
@@ -17,7 +17,7 @@ export default class Snippet extends PureComponent {
   highlight () {
     highlight(this.refs.editor, {
       mode: this.props.json ? 'ace/mode/json' : 'ace/mode/javascript',
-      theme: 'ace/theme/monokai'
+      theme: 'ace/theme/tomorrow'
     })
   }
 
@@ -30,6 +30,6 @@ export default class Snippet extends PureComponent {
   }
 
   render () {
-    return <div ref='editor'>{this.props.children}</div>
+    return <div className='snippet' ref='editor'>{this.props.children}</div>
   }
 }
