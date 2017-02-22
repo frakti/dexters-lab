@@ -15,29 +15,39 @@ import examplePicker from './examplePicker'
 import stepsPrettifier from './stepsPrettifier'
 import Snippet from './Snippet'
 import beautify from 'json-beautify'
+import Storage from './Storage'
 
 export default class MainPage extends Component {
-  state = {
-    content: '',
-    data: '',
-    stats: [],
-    currentLib: 'lodash',
-    currentVersion: null,
-    versions: [],
-    result: null,
-    error: null,
-    isLabLoaded: false
+
+  constructor (props) {
+    super(props)
+    this.storage = new Storage()
+    this.state = {
+      content: this.storage.config.content || '',
+      data: this.storage.config.data || '',
+      stats: [],
+      currentLib: this.storage.config.currentLib || 'lodash',
+      currentVersion: this.storage.config.currentVersion,
+      versions: [],
+      result: null,
+      error: null,
+      isLabLoaded: false,
+      isStorageEnabled: this.storage.isStorageEnabled
+    }
   }
 
   componentDidMount () {
     this.playgroundService = new PlaygroundService(this.refs.lodashLab)
+    const {currentVersion, currentLib, content, data} = this.state
 
     fetch('http://api.jsdelivr.com/v1/jsdelivr/libraries/lodash')
       .then(response => response.json())
       .then(cdn => {
         const [{versions}] = cdn
-        this.playgroundService.switchLib(this.state.currentLib, versions[0], () => {
-          this.setState({currentVersion: versions[0], isLabLoaded: true})
+        const version = currentVersion || versions[0]
+        this.playgroundService.switchLib(currentLib, version, () => {
+          this.setState({currentVersion: version, isLabLoaded: true})
+          this.processContent(content, data)
         })
 
         this.setState({versions})
@@ -49,9 +59,15 @@ export default class MainPage extends Component {
   }
 
   processContent = (content, data) => {
-    const {isLabLoaded} = this.state
+    const {isLabLoaded, result} = this.state
 
-    if (!isLabLoaded || (isEqual(content, this.state.content) && isEqual(data, this.state.data))) return
+    if (
+      !isLabLoaded ||
+      (isEqual(content, this.state.content) && isEqual(data, this.state.data) && result !== null)
+    ) {
+      return
+    }
+    this.storage.save({content, data})
 
     try {
       const [result, stats] = this.playgroundService.execute(
@@ -126,6 +142,7 @@ export default class MainPage extends Component {
     const {target: {value}} = event
 
     this.setState({isLabLoaded: false})
+    this.storage.save({currentLib: value})
 
     this.playgroundService.switchLib(value, this.state.currentVersion, () => {
       this.setState({currentLib: value, isLabLoaded: true})
@@ -141,6 +158,7 @@ export default class MainPage extends Component {
     const {target: {value}} = event
 
     this.setState({isLabLoaded: false})
+    this.storage.save({currentVersion: value})
 
     this.playgroundService.switchLib(this.state.currentLib, value, () => {
       this.setState({currentVersion: value, isLabLoaded: true})
@@ -153,11 +171,19 @@ export default class MainPage extends Component {
   }
 
   onAutoSaveChange = (event) => {
-    console.info(event.target.checked)
+    this.setState({isStorageEnabled: event.target.checked})
+
+    if (!event.target.checked) {
+      return this.storage.disable()
+    }
+
+    this.storage.enable()
+    const {currentLib, currentVersion, data, content} = this.state
+    this.storage.save({currentLib, currentVersion, data, content})
   }
 
   render () {
-    const {versions, isLabLoaded} = this.state
+    const {versions, isLabLoaded, isStorageEnabled, currentLib, currentVersion} = this.state
     const loader = !isLabLoaded ? <Icon name='cog' spin fixedWidth /> : <span />
 
     return (
@@ -167,20 +193,20 @@ export default class MainPage extends Component {
         </header>
         <nav>
           lib:
-          <FormControl className='lib-picker' componentClass='select'
+          <FormControl className='lib-picker' componentClass='select' value={currentLib}
             onChange={this.onSwitchLib} disabled={!isLabLoaded}
           >
             <option>lodash</option>
             <option>lodash/fp</option>
           </FormControl>
           version:
-          <FormControl className='lib-picker' componentClass='select'
+          <FormControl className='lib-picker' componentClass='select' value={currentVersion}
             onChange={this.onSwitchLodashVersion} disabled={!isLabLoaded}
           >
             {map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
           <div className='right-nav'>
-            <Checkbox className='auto-save' onChange={this.onAutoSaveChange}>Auto save</Checkbox>
+            <Checkbox className='auto-save' checked={isStorageEnabled} onChange={this.onAutoSaveChange}>Auto save</Checkbox>
             <span className='delimiter'>|</span>
             <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a>
             <span className='delimiter'>|</span>
