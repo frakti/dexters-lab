@@ -230,12 +230,12 @@ export default class MainPage extends Component {
             {_.map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
           {isVersionOutdated && (
-            <Hint id='outdated-version-used' hint='There is newer minor version.'>
+            <Hint id='outdated-version-used' hint='There is a newer minor version.'>
               <Icon name='exclamation-triangle' fixedWidth className='outdated-version-alert' />
             </Hint>
           )}
           <div className='right-nav'>
-            <Hint id='auto-save' hint='Saves in your localStorage used lib, version and editors content. Then restores it when you go back.'>
+            <Hint id='auto-save' hint='Saves used lib, version and editors content. Then restores it when you go back.'>
               <Checkbox className='auto-save' checked={isStorageEnabled} onChange={this.onAutoSaveChange}>Auto save</Checkbox>
             </Hint>
             <span className='delimiter'>|</span>
