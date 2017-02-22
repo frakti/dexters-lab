@@ -22,6 +22,7 @@ export default class Storage {
   }
 
   disable () {
-    store.clear()
+    store.set('config', {})
+    store.set('isStorageEnabled', false)
   }
 }
