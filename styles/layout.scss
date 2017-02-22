@@ -45,13 +45,13 @@ html, body, #react-root {
     }
 
     #editors {
-      flex-grow: 0;
+      flex: 1 auto;
       width: 450px;
-      padding: 15px 0 0 15px;
+      padding: 15px;
     }
 
     #results {
-      flex-grow: 1;
+      flex: 3 300px;
       padding: 15px;
       overflow: auto;
     }
