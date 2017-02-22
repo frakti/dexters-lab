@@ -190,9 +190,17 @@ export default class MainPage extends Component {
     this.setState({isStorageEnabled: event.target.checked})
 
     if (!event.target.checked) {
+      woopra.track('disable-auto-save', {
+        version: this.state.currentVersion,
+        library: this.state.currentLib
+      })
       return this.storage.disable()
     }
 
+    woopra.track('enable-auto-save', {
+      version: this.state.currentVersion,
+      library: this.state.currentLib
+    })
     this.storage.enable()
     const {currentLib, currentVersion, data, content} = this.state
     this.storage.save({currentLib, currentVersion, data, content})
