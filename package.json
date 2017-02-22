@@ -8,9 +8,7 @@
     "lint": "standard",
     "postversion": "git push && git push --tags && LIVE_DIR=../dexters-lab-live/ npm run deploy",
     "predeploy": "echo \"Deploy repo directory: $LIVE_DIR\"",
-    "deploy": "LIVE_DIR=../dexters-lab-live/ COMMITT=\"Release ${npm_package_version}\" npm run deploy-pipeline",
-    "hotfix-deploy": "LIVE_DIR=../dexters-lab-live/ COMMIT=\"Hot fix release\" npm run deploy-pipeline",
-    "deploy-pipeline": "NODE_ENV=production gulp build && cp -R docs/* $LIVE_DIR && cd $LIVE_DIR && git add -A && git commit -m $COMMIT && git push origin master"
+    "deploy": "NODE_ENV=production gulp build && cp -R docs/* $LIVE_DIR && cd $LIVE_DIR && git add -A && git commit -m \"Release ${npm_package_version}\" && git push origin master"
   },
   "keywords": [
     "lodash"
