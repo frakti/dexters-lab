@@ -230,7 +230,7 @@ export default class MainPage extends Component {
             {_.map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
           {isVersionOutdated && (
-            <Hint id='outdated-version-used' hint='There is a newer minor version.'>
+            <Hint id='outdated-version-used' hint='There is a newer major version.'>
               <Icon name='exclamation-triangle' fixedWidth className='outdated-version-alert' />
             </Hint>
           )}
