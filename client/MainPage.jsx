@@ -186,7 +186,9 @@ export default class MainPage extends Component {
   }
 
   renderMain () {
-    const {content, data, stats, result, error, currentVersion} = this.state
+    const {content, data, stats, result} = this.state
+
+    const isNothingUsefulToSee = !result && stats.length === 0
 
     return (
       <main>
@@ -227,35 +229,48 @@ export default class MainPage extends Component {
         </div>
 
         <div id='results'>
-          <div className='preview'>
-            {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
-            <h2>Result</h2>
-            <Snippet json>{beautify(result, null, 2, 80)}</Snippet>
-            <h2>Usages</h2>
-            {
-              map(stepsPrettifier(stats), (step, i) => {
-                const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
-
-                return <Row key={i}>
-                  <Col md={1}>
-                    <small>{i + 1})</small><br />
-                    <a href={docLink} target='_blank'>{step.funcName}</a>
-                  </Col>
-                  <Col md={6}>
-                    <small>Invocation:</small> <Snippet>{step.execution}</Snippet>
-                  </Col>
-                  <Col md={5}>
-                    <small>Output</small> <Snippet json>{step.result}</Snippet>
-                  </Col>
-                  <hr />
-                </Row>
-              })
-            }
-          </div>
+          { isNothingUsefulToSee && this.renderAbout() }
+          { !isNothingUsefulToSee && this.renderStats() }
         </div>
 
         <iframe src='lodash.html' ref='lodashLab' style={{display: 'none'}} />
       </main>
     )
+  }
+
+  renderStats () {
+    const {stats, result, error, currentVersion} = this.state
+
+    return <div className='preview'>
+      {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
+      <h2>Result</h2>
+      <Snippet json>{beautify(result, null, 2, 80)}</Snippet>
+      <h2>Usages</h2>
+      {
+        map(stepsPrettifier(stats), (step, i) => {
+          const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
+
+          return <Row key={i}>
+            <Col md={1}>
+              <small>{i + 1})</small><br />
+              <a href={docLink} target='_blank'>{step.funcName}</a>
+            </Col>
+            <Col md={6}>
+              <small>Invocation:</small> <Snippet>{step.execution}</Snippet>
+            </Col>
+            <Col md={5}>
+              <small>Output</small> <Snippet json>{step.result}</Snippet>
+            </Col>
+            <hr />
+          </Row>
+        })
+      }
+    </div>
+  }
+
+  renderAbout () {
+    return <div>
+      Dexter's Lab!
+    </div>
   }
 }
