@@ -14,7 +14,7 @@ import Icon from 'react-fontawesome'
 import examplePicker from './examplePicker'
 import stepsPrettifier from './stepsPrettifier'
 
-export default class Editor extends Component {
+export default class MainPage extends Component {
   state = {
     content: '',
     data: '',
