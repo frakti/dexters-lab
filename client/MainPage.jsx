@@ -15,6 +15,7 @@ import stepsPrettifier from './stepsPrettifier'
 import Snippet from './Snippet'
 import beautify from 'json-beautify'
 import Storage from './Storage'
+import Hint from './Hint'
 
 export default class MainPage extends Component {
 
@@ -221,10 +222,14 @@ export default class MainPage extends Component {
             {_.map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
           {isVersionOutdated && (
-            <Icon name='exclamation-triangle' fixedWidth className='outdated-version-alert' />
+            <Hint id='outdated-version-used' hint='There is newer minor version.'>
+              <Icon name='exclamation-triangle' fixedWidth className='outdated-version-alert' />
+            </Hint>
           )}
           <div className='right-nav'>
-            <Checkbox className='auto-save' checked={isStorageEnabled} onChange={this.onAutoSaveChange}>Auto save</Checkbox>
+            <Hint id='auto-save' hint='Saves in your localStorage used lib, version and editors content. Then restores it when you go back.'>
+              <Checkbox className='auto-save' checked={isStorageEnabled} onChange={this.onAutoSaveChange}>Auto save</Checkbox>
+            </Hint>
             <span className='delimiter'>|</span>
             <a href='https://github.com/frakti/dexters-lab/issues'>Report a bug</a>
             <span className='delimiter'>|</span>
