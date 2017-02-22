@@ -270,7 +270,23 @@ export default class MainPage extends Component {
 
   renderAbout () {
     return <div>
-      Dexter's Lab!
+
+      <h1 className='welcome'>Welcome in the <span style={{color: '#A6E22E'}}>Lab</span>!</h1>
+      <p>
+        This is a place where you can experiment with Lodash and Lodash FP (soon Ramda as well!),
+        and see what is an output of your transform function. The true magic of this tool
+        can be seen when you start using chaining or composition. All steps "in-between" are shown as well.
+        Just start typing or use example.
+      </p>
+      <p>
+        It is <strong>free</strong> and open source.
+      </p>
+      <p>
+        If you find a bug or have some special needs or ideas, don't hesitate to create and Issue on GitHub.
+      </p>
+      <p>
+        The tool is created and maintained by <a href='https://github.com/frakti'>Tomasz Sikora</a>.
+      </p>
     </div>
   }
 }
