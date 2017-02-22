@@ -206,10 +206,7 @@ export default class Editor extends Component {
             <JavaScriptEditor
               ref='inputData'
               json
-              onChange={(data) => {
-                this.setState({data})
-                this.processContent(this.state.content, data)
-              }}
+              onChange={(data) => this.processContent(this.state.content, data)}
               defaultValue={data}
               />
             <Button onClick={this.onBeautifyJson} className='m-a'>Beautify JSON</Button>
