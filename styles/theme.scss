@@ -20,6 +20,13 @@
     padding-left: 15px;
     font-size: 12px;
 
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     .lib-picker {
       display: inline-block;
       width: 80px;

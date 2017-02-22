@@ -23,10 +23,12 @@ h1.welcome {
 
 a {
   color: black;
+  text-decoration: underline;
 
   &:hover {
     color: #F92672;
   }
+
 }
 
 .auto-save {
