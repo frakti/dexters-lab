@@ -2,8 +2,6 @@
 'use strict'
 
 import _ from 'lodash'
-import map from 'lodash/map'
-import isEqual from 'lodash/isEqual'
 import React, {Component} from 'react'
 import JavaScriptEditor from './JavaScriptEditor'
 import PlaygroundService from './PlaygroundService'
@@ -79,7 +77,7 @@ export default class MainPage extends Component {
 
     if (
       !isLabLoaded ||
-      (isEqual(content, this.state.content) && isEqual(data, this.state.data) && result !== null)
+      (_.isEqual(content, this.state.content) && _.isEqual(data, this.state.data) && result !== null)
     ) {
       return
     }
@@ -92,7 +90,7 @@ export default class MainPage extends Component {
       )
 
       this.setState((prevState) => {
-        if (!isEqual(prevState.result, result) && content) {
+        if (!_.isEqual(prevState.result, result) && content) {
           woopra.track('new-result', {
             version: this.state.currentVersion,
             library: this.state.currentLib
@@ -220,7 +218,7 @@ export default class MainPage extends Component {
           <FormControl className='lib-picker' componentClass='select' value={currentVersion}
             onChange={this.onSwitchLodashVersion} disabled={!isLabLoaded}
           >
-            {map(versions, version => <option key={version}>{version}</option>)}
+            {_.map(versions, version => <option key={version}>{version}</option>)}
           </FormControl>
           {isVersionOutdated && (
             <Icon name='exclamation-triangle' fixedWidth className='outdated-version-alert' />
@@ -301,7 +299,7 @@ export default class MainPage extends Component {
       <Snippet json>{beautify(result, null, 2, 80)}</Snippet>
       <h2>Usages</h2>
       {
-        map(stepsPrettifier(stats), (step, i) => {
+        _.map(stepsPrettifier(stats), (step, i) => {
           const docLink = `https://lodash.com/docs/${currentVersion}#${step.funcName}`
 
           return <Row key={i}>
