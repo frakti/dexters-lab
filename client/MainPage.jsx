@@ -13,6 +13,7 @@ import 'whatwg-fetch'
 import Icon from 'react-fontawesome'
 import examplePicker from './examplePicker'
 import stepsPrettifier from './stepsPrettifier'
+import Snippet from './Snippet'
 
 export default class MainPage extends Component {
   state = {
@@ -228,7 +229,7 @@ export default class MainPage extends Component {
           <div className='preview'>
             {error && <Alert bsStyle='danger' className='m-a'>{error}</Alert>}
             <h2>Result</h2>
-            <pre>{JSON.stringify(result, null, 2)}</pre>
+            <Snippet json>{JSON.stringify(result, null, 2)}</Snippet>
             <h2>Usages</h2>
             {
               map(stepsPrettifier(stats), (step, i) => {
@@ -243,7 +244,7 @@ export default class MainPage extends Component {
                     <small>Invocation:</small> <pre>{step.execution}</pre>
                   </Col>
                   <Col md={5}>
-                    <small>Output</small> <pre>{step.result}</pre>
+                    <small>Output</small> <Snippet json>{step.result}</Snippet>
                   </Col>
                   <hr />
                 </Row>
