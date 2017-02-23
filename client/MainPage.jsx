@@ -94,7 +94,14 @@ export default class MainPage extends Component {
         if (!_.isEqual(prevState.result, result) && content) {
           woopra.track('new-result', {
             version: this.state.currentVersion,
-            library: this.state.currentLib
+            library: this.state.currentLib,
+            // How complex queries people do?
+            used_methods_count: _.size(stats),
+            function_length: _.size(content),
+            // Do they use Input Data textarea?
+            data_length: _.size(data),
+            // Is response complex? Shall we present it differently?
+            result_length: _.size(JSON.stringify(result))
           })
         }
 
@@ -148,7 +155,8 @@ export default class MainPage extends Component {
       this.refs.inputData.editor.setValue(beautify(json, null, 2, 50))
       woopra.track('beautify-input-data', {
         version: this.state.currentVersion,
-        library: this.state.currentLib
+        library: this.state.currentLib,
+        data_length: _.size(data)
       })
     } catch (e) {}
   }
