@@ -96,7 +96,9 @@ export default class MainPage extends Component {
             version: this.state.currentVersion,
             library: this.state.currentLib,
             // How complex queries people do?
-            used_methods_count: _.size(stats),
+            used_methods: _.size(stats),
+            // Are users trying to use composition/chaining? Maybe we should promote it somehow?
+            composed_methods: _(stats).filter({isChained: true}).size(),
             function_length: _.size(content),
             // Do they use Input Data textarea?
             data_length: _.size(data),
